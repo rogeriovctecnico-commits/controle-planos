@@ -19,7 +19,7 @@ def create_app():
             template_folder=os.path.join(internal_dir, 'templates'),
             static_folder=os.path.join(internal_dir, 'static')
         )
-        
+
                 # Correção de templates de blueprints
         blueprints_dir = os.path.join(internal_dir, 'blueprints')
         if os.path.exists(blueprints_dir):
@@ -52,7 +52,7 @@ def create_app():
     from .blueprints.precos_faixa_etaria import precos_bp
     from .blueprints.vendas import vendas_bp
     from .relatorios.views import bp as relatorios_bp
-    from .blueprints.auth.routes import test_bp 
+    from .blueprints.auth.routes import test_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(test_bp)

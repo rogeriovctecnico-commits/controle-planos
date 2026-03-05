@@ -93,12 +93,14 @@ def register():
         password = password.strip()
 
         try:
+            # Verificar se usuário já existe
             if Usuario.query.filter((Usuario.username == username) | (Usuario.email == email)).first():
                 flash("Usuário ou e-mail já existe!", "danger")
                 return redirect(url_for("auth.register"))
 
-            new_user = Usuario(username=username, email=email)
-            new_user.set_password(password)
+            # CORREÇÃO: Passar password no __init__
+            new_user = Usuario(username=username, email=email, password=password)
+            
             db.session.add(new_user)
             db.session.commit()
 
@@ -109,6 +111,7 @@ def register():
             db.session.rollback()
             logger.error(f"Erro durante registro: {str(e)}")
             flash("Erro interno. Tente novamente.", "danger")
+            print(f"DEBUG: Erro detalhado: {str(e)}")  # Para debug
 
     return render_template("register.html")
 
@@ -131,31 +134,35 @@ def confirm_token(token, expiration=3600):
 def forgot_password():
     if request.method == "POST":
         email = request.form.get("email")
-        
+        print(f"DEBUG: Email recebido: {email}")
+
         if not email:
             flash("E-mail é obrigatório!", "warning")
             return render_template("forgot_password.html")
 
         email = email.strip().lower()
+        print(f"DEBUG: Email processado: {email}")
 
-        try:
-            user = Usuario.query.filter_by(email=email).first()
-            if user:
-                token = generate_token(email)
-                reset_url = url_for("auth.reset_password", token=token, _external=True)
+        user = Usuario.query.filter_by(email=email).first()
+        print(f"DEBUG: Usuário encontrado: {user}")
+        
+        if user:
+            print("DEBUG: Usuário existe, gerando token...")
+            token = generate_token(email)
+            reset_url = url_for("auth.reset_password", token=token, _external=True)
+            print(f"DEBUG: URL gerada: {reset_url}")
 
-                msg = Message("Recuperação de senha", recipients=[email])
-                msg.body = f"Para redefinir sua senha, clique no link: {reset_url}"
-                mail.send(msg)
+            msg = Message("Recuperação de senha", recipients=[email])
+            msg.body = f"Para redefinir sua senha, clique no link: {reset_url}"
+            print("DEBUG: Tentando enviar email...")
+            mail.send(msg)
+            print("DEBUG: Email enviado com sucesso!")
 
-                flash("Um link de recuperação foi enviado para seu e-mail.", "info")
-                return redirect(url_for("auth.login"))
-            else:
-                flash("E-mail não encontrado!", "danger")
-
-        except Exception as e:
-            logger.error(f"Erro ao enviar email de recuperação: {str(e)}")
-            flash("Erro ao enviar e-mail. Tente novamente.", "danger")
+            flash("Um link de recuperação foi enviado para seu e-mail.", "info")
+            return redirect(url_for("auth.login"))
+        else:
+            print("DEBUG: Usuário não encontrado!")
+            flash("E-mail não encontrado!", "danger")
 
     return render_template("forgot_password.html")
 
@@ -168,7 +175,7 @@ def reset_password(token):
 
     if request.method == "POST":
         password = request.form.get("password")
-        
+
         if not password:
             flash("Senha é obrigatória!", "warning")
             return render_template("reset_password.html")
@@ -200,7 +207,7 @@ def send_test_email():
     try:
         msg = Message(
             subject="Teste Flask-Mail",
-            recipients=["rogeriovctecnico@gmail.com"],  # ajuste para o e-mail real
+            recipients=["rogeriovctecnico@gmail.com"],
             body="Este é um e-mail de teste enviado pelo Flask-Mail usando Gmail."
         )
         mail.send(msg)
@@ -208,3 +215,25 @@ def send_test_email():
     except Exception as e:
         logger.error(f"Erro ao enviar e-mail de teste: {str(e)}")
         return f"Erro ao enviar e-mail: {str(e)}"
+    
+@auth_bp.route("/debug-db")
+def debug_db():
+    """Debug do banco de dados - REMOVER EM PRODUÇÃO"""
+    try:
+        # Verificar se a tabela existe
+        from sqlalchemy import inspect
+        inspector = inspect(db.engine)
+        tables = inspector.get_table_names()
+        
+        # Tentar criar um usuário de teste COM PASSWORD
+        test_user = Usuario(username="teste", email="teste@teste.com", password="123456")
+        
+        return f"""
+        <h2>Debug do Banco de Dados:</h2>
+        <p><strong>Tabelas existentes:</strong> {tables}</p>
+        <p><strong>Modelo Usuario criado:</strong> OK</p>
+        <br>
+        <a href="/register">Ir para cadastro</a>
+        """
+    except Exception as e:
+        return f"Erro no debug: {str(e)}"

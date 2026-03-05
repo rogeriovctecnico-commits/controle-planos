@@ -2,7 +2,7 @@
 TITLE Sistema Controle de Clientes
 
 :: 1. Navega para a pasta do projeto
-cd /d "D:\Clone-planos-de-saude\controle-planos"
+@REM cd /d "D:\Clone-planos-de-saude\controle-planos"
 
 :: 2. Cria o ambiente virtual (.venv) se não existir
 if not exist .venv\Scripts\activate.bat (
