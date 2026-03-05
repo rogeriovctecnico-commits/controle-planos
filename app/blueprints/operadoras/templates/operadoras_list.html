@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Operadoras{% endblock %}
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Operadoras</h2>
+    <a class="btn btn-success" href="{{ url_for('operadoras.create_operadora') }}">Nova Operadora</a>
+  </div>
+
+  <!-- Formulário de Busca -->
+  <form method="get" action="{{ url_for('operadoras.list_operadoras') }}" class="mb-4">
+    <div class="input-group input-group-lg">
+      <input type="search" name="q" class="form-control border-primary" placeholder="Buscar por nome da operadora..." value="{{ search_term or '' }}">
+      <button class="btn btn-primary fw-bold" type="submit">BUSCAR</button>
+      {% if search_term %}
+        <a href="{{ url_for('operadoras.list_operadoras') }}" class="btn btn-outline-danger">Limpar</a>
+      {% endif %}
+    </div>
+  </form>
+
+  <table class="table table-striped">
+    <thead><tr><th>Nome</th><th></th></tr></thead>
+    <tbody>
+      {% for op in operadoras %}
+      <tr>
+        <td>{{ op.nome_operadora }}</td>
+        <td class="text-end">
+          <a class="btn btn-sm btn-primary" href="{{ url_for('operadoras.edit_operadora', id=op.id) }}">Editar</a>
+          <form method="post" action="{{ url_for('operadoras.delete_operadora', id=op.id) }}" style="display:inline" onsubmit="return confirm('Remover operadora?');">
+            <button class="btn btn-sm btn-danger">Remover</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

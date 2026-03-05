@@ -1,0 +1,46 @@
+from flask import render_template, request, redirect, url_for, flash
+from app.blueprints.clientes import clientes_bp
+from app import db
+
+@clientes_bp.route('/')
+@clientes_bp.route('/list')
+def list_clientes():
+    try:
+        clientes = []
+        return render_template('clientes_list.html', clientes=clientes)
+    except Exception as e:
+        flash('Erro ao carregar clientes.', 'danger')
+        return render_template('clientes_list.html', clientes=[])
+
+@clientes_bp.route('/add', methods=['GET', 'POST'])
+def add_cliente():
+    if request.method == 'POST':
+        nome = request.form.get('nome', '').strip()
+        email = request.form.get('email', '').strip()
+
+        if not nome or not email:
+            flash('Nome e email são obrigatórios!', 'warning')
+            return render_template('clientes_form.html')
+
+        flash('Cliente adicionado com sucesso!', 'success')
+        return redirect(url_for('clientes.list_clientes'))
+
+    return render_template('clientes_form.html')
+
+@clientes_bp.route('/edit/<int:id>', methods=['GET', 'POST'])
+def edit_cliente(id):
+    if request.method == 'POST':
+        flash('Cliente atualizado com sucesso!', 'success')
+        return redirect(url_for('clientes.list_clientes'))
+    
+    cliente = {'id': id, 'nome': 'Cliente Teste', 'email': 'teste@email.com'}
+    return render_template('clientes_form.html', cliente=cliente)
+
+@clientes_bp.route('/delete/<int:id>')
+def delete_cliente(id):
+    try:
+        flash('Cliente deletado com sucesso!', 'success')
+    except Exception as e:
+        flash('Erro ao deletar cliente.', 'danger')
+
+    return redirect(url_for('clientes.list_clientes'))

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Relatórios Gerenciais</h2>
+    <p class="text-muted">Selecione um relatório abaixo para visualizar:</p>
+    
+    <div class="list-group mt-3">
+        <a href="{{ url_for('relatorios.clientes_ativos') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+            <div><i class="bi bi-people me-2"></i> Clientes Ativos vs Inativos</div>
+            <span class="badge bg-primary rounded-pill"><i class="bi bi-arrow-right"></i></span>
+        </a>
+        <a href="{{ url_for('relatorios.vendas_periodo') }}" class="list-group-item list-group-item-action">
+            <i class="bi bi-cash-coin me-2"></i> Vendas por Período (Fluxo de Caixa)
+        </a>
+        <a href="{{ url_for('relatorios.comissoes_pendentes') }}" class="list-group-item list-group-item-action">
+            <i class="bi bi-exclamation-triangle me-2"></i> Comissões e Premiações Pendentes
+        </a>
+        <a href="{{ url_for('relatorios.aniversariantes') }}" class="list-group-item list-group-item-action">
+            <i class="bi bi-gift me-2"></i> Aniversariantes do Mês
+        </a>
+        <a href="{{ url_for('relatorios.performance_operadoras') }}" class="list-group-item list-group-item-action">
+            <i class="bi bi-graph-up me-2"></i> Performance por Operadora
+        </a>
+    </div>
+
+    <h3 class="mt-5">Gráficos</h3>
+    <p class="text-muted">Visualizações gráficas dos dados:</p>
+
+    <div class="list-group mt-3">
+        <a href="{{ url_for('relatorios.graficos', tipo='clientes-ativos') }}" class="list-group-item list-group-item-action">
+            <i class="bi bi-pie-chart me-2"></i> Gráfico: Clientes Ativos vs Inativos
+        </a>
+        <a href="{{ url_for('relatorios.graficos', tipo='vendas-periodo') }}" class="list-group-item list-group-item-action">
+            <i class="bi bi-bar-chart me-2"></i> Gráfico: Vendas por Período
+        </a>
+        <a href="{{ url_for('relatorios.graficos', tipo='performance-operadoras') }}" class="list-group-item list-group-item-action">
+            <i class="bi bi-bar-chart-line me-2"></i> Gráfico: Performance das Operadoras
+        </a>
+        <a href="{{ url_for('relatorios.graficos', tipo='aniversariantes') }}" class="list-group-item list-group-item-action">
+            <i class="bi bi-calendar-event me-2"></i> Gráfico: Aniversariantes por Mês
+        </a>
+        <a href="{{ url_for('relatorios.graficos', tipo='comissoes-pendentes') }}" class="list-group-item list-group-item-action">
+            <i class="bi bi-pie-chart-fill me-2"></i> Gráfico: Comissões Pendentes vs Pagas
+        </a>
+    </div>
+</div>
+{% endblock %}

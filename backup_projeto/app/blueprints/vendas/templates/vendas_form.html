@@ -1,0 +1,303 @@
+```jinja
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+  <h2>{{ title }}</h2>
+
+  <style>
+    .form-select {
+      width: 100%;
+    }
+    .dropdown-menu {
+      max-width: 100%;
+    }
+  </style>
+
+  <form method="post">
+    {{ form.hidden_tag() }}
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        {{ form.cliente_id.label("Nome do Cliente:", class="form-label") }}
+        {{ form.cliente_id(class="form-select" + (" is-invalid" if form.cliente_id.errors else ""), id="cliente_id") }}
+        {% for error in form.cliente_id.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+      </div>
+      <div class="col-md-6 mb-3">
+        {{ form.plano_id.label("Plano:", class="form-label") }}
+        {{ form.plano_id(class="form-select" + (" is-invalid" if form.plano_id.errors else ""), id="plano_id", style="width: 100%;") }}
+        {% for error in form.plano_id.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        {{ form.data_venda.label("Data da Venda:", class="form-label") }}
+        {{ form.data_venda(class="form-control" + (" is-invalid" if form.data_venda.errors else ""), id="data_venda", type="datetime-local") }}
+        {% for error in form.data_venda.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+      </div>
+      <div class="col-md-6 mb-3">
+        {{ form.data_vigencia.label("Data de Vigência:", class="form-label") }}
+        {{ form.data_vigencia(class="form-control" + (" is-invalid" if form.data_vigencia.errors else ""), id="data_vigencia", type="date") }}
+        {% for error in form.data_vigencia.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        {{ form.origem.label("Origem:", class="form-label") }}
+        {{ form.origem(class="form-control" + (" is-invalid" if form.origem.errors else ""), id="origem") }}
+        {% for error in form.origem.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+      </div>
+      <div class="col-md-4 mb-3">
+        {{ form.natureza.label("Natureza:", class="form-label") }}
+        {{ form.natureza(class="form-control" + (" is-invalid" if form.natureza.errors else ""), id="natureza") }}
+        {% for error in form.natureza.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+      </div>
+      <div class="col-md-4 mb-3">
+        {{ form.promocao.label("Promoção:", class="form-label") }}
+        {{ form.promocao(class="form-control" + (" is-invalid" if form.promocao.errors else ""), id="promocao") }}
+        {% for error in form.promocao.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3 mb-3">
+        {{ form.valor_venda.label("Valor da Venda:", class="form-label") }}
+        {{ form.valor_venda(class="form-control" + (" is-invalid" if form.valor_venda.errors else ""), id="valor_venda", type="text") }}
+        {% for error in form.valor_venda.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+      </div>
+      <div class="col-md-3 mb-3">
+        {{ form.desconto.label("Desconto:", class="form-label") }}
+        {{ form.desconto(class="form-control" + (" is-invalid" if form.desconto.errors else ""), id="desconto", type="text") }}
+        {% for error in form.desconto.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+      </div>
+      <div class="col-md-3 mb-3">
+        {{ form.valor_final.label("Valor Final:", class="form-label", for="valor_final_display") }}
+        <input type="text" class="form-control {{ 'is-invalid' if form.valor_final.errors else '' }}" id="valor_final_display" readonly title="Valor Final Calculado" placeholder="0,00">
+        {{ form.valor_final(type="hidden", id="valor_final") }}
+        {% for error in form.valor_final.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+      </div>
+      <div class="col-md-3 mb-3">
+        {{ form.status.label(class="form-label") }}
+        {{ form.status(class="form-select" + (" is-invalid" if form.status.errors else ""), id="status") }}
+        {% for error in form.status.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3 mb-3">
+        {{ form.comissao.label("Comissão:", class="form-label", for="comissao_display") }}
+        <input type="text" class="form-control {{ 'is-invalid' if form.comissao.errors else '' }}" id="comissao_display" readonly title="Comissão Calculada" placeholder="0,00">
+        {{ form.comissao(type="hidden", id="comissao") }}
+        {% for error in form.comissao.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+      </div>
+      <div class="col-md-3 mb-3">
+        {{ form.premiacao.label("Premiação:", class="form-label") }}
+        {{ form.premiacao(class="form-control" + (" is-invalid" if form.premiacao.errors else ""), id="premiacao") }}
+        {% for error in form.premiacao.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+      </div>
+      <div class="col-md-3 mb-3">
+        <div class="form-check">
+          {{ form.premiacao_paga(class="form-check-input" + (" is-invalid" if form.premiacao_paga.errors else ""), id="premiacao_paga") }}
+          {{ form.premiacao_paga.label("Premiação Paga", class="form-check-label") }}
+        </div>
+      </div>
+      <div class="col-md-3 mb-3">
+        <div class="form-check">
+          {{ form.comissao_paga(class="form-check-input" + (" is-invalid" if form.comissao_paga.errors else ""), id="comissao_paga") }}
+          {{ form.comissao_paga.label("Comissão Paga", class="form-check-label") }}
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      {{ form.numeros_vida.label("Números de Vidas:", class="form-label") }}
+      {{ form.numeros_vida(class="form-control" + (" is-invalid" if form.numeros_vida.errors else ""), id="numeros_vida") }}
+      {% for error in form.numeros_vida.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+    </div>
+
+    <div class="mb-3">
+      {{ form.observacoes.label("Observações:", class="form-label") }}
+      {{ form.observacoes(class="form-control" + (" is-invalid" if form.observacoes.errors else ""), id="observacoes", rows=3) }}
+      {% for error in form.observacoes.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+    </div>
+
+    {{ form.submit(class="btn btn-primary") }}
+    <a class="btn btn-secondary" href="{{ url_for('vendas.list_vendas') }}">Cancelar</a>
+  </form>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const valorVendaInput = document.getElementById('valor_venda');
+      const descontoInput = document.getElementById('desconto');
+      const valorFinalInput = document.getElementById('valor_final'); // hidden
+      const valorFinalDisplay = document.getElementById('valor_final_display'); // visual
+      const comissaoInput = document.getElementById('comissao'); // hidden
+      const comissaoDisplay = document.getElementById('comissao_display'); // visual
+      const statusSelect = document.getElementById('status');
+      const planoSelect = document.getElementById('plano_id');
+      const premiacaoInput = document.getElementById('premiacao');
+      const numerosVidaInput = document.getElementById('numeros_vida');
+      const observacoesInput = document.getElementById('observacoes');
+      const form = document.querySelector('form');
+
+      if (!valorVendaInput || !descontoInput || !valorFinalInput || !valorFinalDisplay || !comissaoInput || !comissaoDisplay || !statusSelect || !planoSelect) {
+        console.error("Elementos do formulário não encontrados.");
+        return;
+      }
+
+      function formatInitialValues() {
+        const moneyInputs = [valorVendaInput, descontoInput, premiacaoInput];
+        moneyInputs.forEach(input => {
+          if (input && input.value && !input.value.includes(',')) {
+            const val = parseFloat(input.value);
+            if (!isNaN(val)) {
+              input.value = val.toFixed(2).replace('.', ',');
+            }
+          }
+        });
+
+        // Inicializa displays pelo hidden (se vierem do backend)
+        if (valorFinalInput.value) {
+          const v = parseFloat(valorFinalInput.value);
+          if (!isNaN(v)) valorFinalDisplay.value = v.toFixed(2).replace('.', ',');
+        }
+        if (comissaoInput.value) {
+          const c = parseFloat(comissaoInput.value);
+          if (!isNaN(c)) comissaoDisplay.value = c.toFixed(2).replace('.', ',');
+        }
+      }
+
+      function parseBrazilianNumber(str) {
+        if (!str) return 0;
+        str = str.toString().trim();
+        // 1. Remove pontos de milhar (ex: 1.000 -> 1000) e símbolos (R$)
+        str = str.replace(/\./g, '').replace(/[^\d,-]/g, '');
+        // 2. Substitui vírgula decimal por ponto (ex: 10,50 -> 10.50)
+        return parseFloat(str.replace(',', '.')) || 0;
+      }
+
+      function calcularValorFinal() {
+        const valorVenda = parseBrazilianNumber(valorVendaInput.value);
+        const desconto = parseBrazilianNumber(descontoInput.value);
+        const valorFinal = valorVenda - desconto;
+
+        // console.log('Cálculo:', { valorVenda, desconto, valorFinal });
+
+        valorFinalDisplay.value = Number.isFinite(valorFinal) ? valorFinal.toFixed(2).replace('.', ',') : '';
+        valorFinalInput.value = Number.isFinite(valorFinal) ? valorFinal.toFixed(2) : '';
+
+        // Feedback visual: pisca o campo em verde para confirmar o cálculo
+        valorFinalDisplay.style.backgroundColor = "#d4edda"; 
+        setTimeout(() => valorFinalDisplay.style.backgroundColor = "", 300);
+
+        if (valorFinal < 0) {
+          valorFinalDisplay.classList.add('text-danger', 'border-danger');
+        } else {
+          valorFinalDisplay.classList.remove('text-danger', 'border-danger');
+        }
+      }
+
+      function isMedseniorOrBestSenior() {
+        if (planoSelect.selectedIndex === -1) return false;
+        const selectedOption = planoSelect.options[planoSelect.selectedIndex];
+        const planoText = (selectedOption ? selectedOption.text : '').toUpperCase();
+        return planoText.includes('MEDSENIOR') || planoText.includes('BEST SENIOR') || planoText.includes('BESTSENIOR');
+      }
+
+      function calcularComissao() {
+        if (isMedseniorOrBestSenior()) {
+          const valorVenda = parseBrazilianNumber(valorVendaInput.value);
+          const comissao = valorVenda * 0.30;
+          comissaoDisplay.value = Number.isFinite(comissao) ? comissao.toFixed(2).replace('.', ',') : '';
+          comissaoInput.value = Number.isFinite(comissao) ? comissao.toFixed(2) : '';
+        } else {
+          comissaoDisplay.value = '';
+          comissaoInput.value = '';
+        }
+        toggleFields();
+      }
+
+      function toggleFields() {
+        const isMedsenior = isMedseniorOrBestSenior();
+        const isCancelled = (statusSelect.value || '').toLowerCase() === 'cancelado';
+        const allInputs = form.querySelectorAll('input, select, textarea');
+
+        allInputs.forEach(input => {
+          if (input === statusSelect || input.type === 'submit' || input === valorFinalInput || input === valorFinalDisplay || input === comissaoInput) return;
+
+          if (input === comissaoDisplay) {
+            input.readOnly = isCancelled || isMedsenior;
+          } else {
+            input.readOnly = isCancelled;
+          }
+
+          const isVisualField = input === valorVendaInput || input === descontoInput || input === premiacaoInput || input === numerosVidaInput || input === observacoesInput;
+          if (isVisualField) {
+            if (isCancelled) {
+              input.style.textDecoration = 'line-through';
+              input.style.opacity = '0.6';
+            } else {
+              input.style.textDecoration = 'none';
+              input.style.opacity = '1';
+            }
+          }
+        });
+      }
+
+      function handleValorVendaChange() {
+        calcularValorFinal();
+        calcularComissao();
+      }
+
+      function handlePlanoChange() {
+        calcularComissao();
+      }
+
+      valorVendaInput.addEventListener('input', handleValorVendaChange);
+      valorVendaInput.addEventListener('keyup', handleValorVendaChange);
+      valorVendaInput.addEventListener('blur', handleValorVendaChange);
+      valorVendaInput.addEventListener('change', handleValorVendaChange);
+
+      descontoInput.addEventListener('input', calcularValorFinal);
+      descontoInput.addEventListener('keyup', calcularValorFinal);
+      descontoInput.addEventListener('blur', calcularValorFinal);
+      descontoInput.addEventListener('change', calcularValorFinal);
+
+      planoSelect.addEventListener('change', handlePlanoChange);
+      statusSelect.addEventListener('change', toggleFields);
+
+      comissaoDisplay.addEventListener('input', function() {
+        const val = parseBrazilianNumber(this.value);
+        comissaoInput.value = Number.isFinite(val) ? val.toFixed(2) : '';
+      });
+
+      form.addEventListener('submit', function() {
+        const moneyInputs = [valorVendaInput, descontoInput, premiacaoInput];
+        moneyInputs.forEach(input => {
+          if (input && input.value && input.value.includes(',')) {
+            input.value = input.value.replace(/\./g, '').replace(',', '.');
+          }
+        });
+
+        const submitBtn = form.querySelector('[type="submit"]');
+        if (submitBtn) {
+          setTimeout(() => {
+            submitBtn.disabled = true;
+            if (submitBtn.tagName === 'INPUT') submitBtn.value = 'Salvando...';
+            else submitBtn.innerText = 'Salvando...';
+          }, 10);
+        }
+      });
+
+      formatInitialValues();
+      calcularValorFinal();
+      calcularComissao();
+      toggleFields();
+
+      toggleFields();
+    });
+  </script>
+{% endblock %}
+```

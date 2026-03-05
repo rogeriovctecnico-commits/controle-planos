@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "controle-planos-flask"
+version = "1.0.0"
+description = "Sistema de Controle de Planos - Flask Application"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Framework :: Flask",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+]
+dependencies = [
+    "Flask==3.1.2",
+    "Flask-WTF==1.2.2",
+    "WTForms==3.2.1",
+    "Flask-SQLAlchemy==3.1.1",
+    "Flask-Migrate==4.1.0",
+    "python-dotenv>=1.0",
+    "Jinja2>=3.1",
+    "gunicorn",
+    "waitress",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/controle-planos-flask"
+Repository = "https://github.com/yourusername/controle-planos-flask.git"
+
+[project.scripts]
+controle-planos = "app:main"
+
+[tool.setuptools]
+packages = ["app", "migrations"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+app = ["templates/**/*", "static/**/*"]
+migrations = ["versions/*.py"]

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+  <h2>{{ title }}</h2>
+  <form method="post">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+      {{ form.nome_operadora.label(class="form-label") }}
+      {{ form.nome_operadora(class="form-control") }}
+    </div>
+    
+    {{ form.submit(class="btn btn-primary") }}
+    <a class="btn btn-secondary" href="{{ url_for('operadoras.list_operadoras') }}">Cancelar</a>
+  </form>
+{% endblock %}

@@ -1,0 +1,192 @@
+/* ============================================
+   MENU LATERAL - PROFISSIONAL E ELEGANTE
+   ============================================ */
+
+/* === SIDEBAR CONTAINER === */
+#sidebar {
+  background: linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+}
+
+#sidebar-content {
+  padding: 1.5rem !important;
+}
+
+/* === TÍTULO DO MENU === */
+#sidebar h5 {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #64748b;
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* === LISTA DE NAVEGAÇÃO === */
+#sidebar .nav {
+  gap: 0.005rem;
+}
+
+/* === LINKS DO MENU === */
+#sidebar .nav-link {
+  display: flex;
+  align-items: center;
+  padding: 0.45rem 1rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #94a3b8 !important;
+  background: transparent;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 0.25rem;
+}
+
+/* Ícone/Emoji */
+#sidebar .nav-link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background: transparent;
+  border-radius: 0 4px 4px 0;
+  transition: all 0.25s ease;
+}
+
+/* === EFEITO HOVER === */
+#sidebar .nav-link:hover {
+  color: #f1f5f9 !important;
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.15) 0%, transparent 100%);
+  transform: translateX(4px);
+}
+
+#sidebar .nav-link:hover::before {
+  background: linear-gradient(180deg, #3b82f6, #60a5fa);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
+
+/* === LINK ATIVO === */
+#sidebar .nav-link.active {
+  color: #ffffff !important;
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.25) 0%, rgba(59, 130, 246, 0.05) 100%);
+  font-weight: 600;
+}
+
+#sidebar .nav-link.active::before {
+  background: linear-gradient(180deg, #3b82f6, #60a5fa);
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+}
+
+/* === ATALHOS DE TECLADO === */
+#sidebar .nav-link .text-muted {
+  margin-left: auto;
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  color: #64748b !important;
+  font-weight: 400;
+  transition: all 0.25s ease;
+}
+
+#sidebar .nav-link:hover .text-muted {
+  background: rgba(59, 130, 246, 0.2);
+  color: #93c5fd !important;
+}
+
+/* === REMOVER CORES INDIVIDUAIS (padronizar) === */
+#sidebar .nav-link.text-success,
+#sidebar .nav-link.text-info,
+#sidebar .nav-link.text-primary,
+#sidebar .nav-link.text-secondary,
+#sidebar .nav-link.vendas-link,
+#sidebar .nav-link.admin-link {
+  color: #94a3b8 !important;
+}
+
+#sidebar .nav-link.text-success:hover,
+#sidebar .nav-link.text-info:hover,
+#sidebar .nav-link.text-primary:hover,
+#sidebar .nav-link.text-secondary:hover,
+#sidebar .nav-link.vendas-link:hover,
+#sidebar .nav-link.admin-link:hover {
+  color: #f1f5f9 !important;
+}
+
+/* === BOTÃO DE TEMA === */
+#sidebar .theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+#sidebar .theme-toggle-btn:hover {
+  color: #f1f5f9;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* === RESIZER === */
+#sidebar-resizer {
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+#sidebar-resizer:hover {
+  background: linear-gradient(180deg, transparent, rgba(59, 130, 246, 0.3), transparent);
+}
+
+/* === SCROLLBAR ELEGANTE === */
+#sidebar-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+#sidebar-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#sidebar-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+#sidebar-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* === SEPARADOR VISUAL (opcional) === */
+#sidebar .nav-item:nth-child(4)::after {
+  content: '';
+  display: block;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  margin: 0.75rem 0;
+}
+
+/* === RESPONSIVIDADE === */
+@media (max-width: 768px) {
+  #sidebar .nav-link {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+  
+  #sidebar .nav-link .text-muted {
+    display: none;
+  }
+}

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    
+    <!-- CSS - ajuste o caminho conforme sua estrutura -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+<body>
+    
+    <!-- Botão de Tema -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+        <span class="material-symbols-outlined icon-light">light_mode</span>
+        <span class="material-symbols-outlined icon-dark">dark_mode</span>
+    </button>
+
+    <main>
+        <section class="auth-container">
+            <header class="auth-header">
+                <div class="logo">
+                    <!-- <span class="material-symbols-outlined">rocket_launch</span>
+                      -->
+                    
+                    <img src="{{ url_for('static', filename='img/ícone_102x102b.png') }}">
+                </div>
+                <h1>RVC - Assessoria em Planos de Saúde </h1>
+                <p class="subtitle">Centro de Controle</p>
+            </header>
+            
+            <!-- Flash Messages do Flask -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            
+            <!-- 👇 action="" envia para a mesma rota (POST /login) -->
+            <form method="POST" action="{{ url_for('auth.login') }}">
+                <div class="campo">
+                    <label for="username">Usuário:</label>
+                    <div class="input-wrapper">
+                        <span class="material-symbols-outlined">person</span>
+                        <input 
+                            type="text" 
+                            id="username" 
+                            name="username" 
+                            required 
+                            autocomplete="username"
+                            placeholder="Seu nome de usuário"
+                        >
+                    </div>
+                </div>
+                
+                <div class="campo">
+                    <label for="password">Senha:</label>
+                    <div class="input-wrapper">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            required 
+                           
+                            placeholder="Sua senha"
+                        >
+                        <span class="material-symbols-outlined">lock</span>
+                    </div>
+                </div>
+                
+                <div class="campo-checkbox">
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember">Manter conectado</label>
+                </div>
+                
+                <button type="submit">
+                    <span class="material-symbols-outlined">login</span>
+                    Entrar
+                </button>
+            </form>
+            
+            <footer>
+                <a href="/forgot-password">Esqueceu a senha?</a>
+                <a href="{{ url_for('auth.register') }}">Criar conta</a>
+            </footer>
+        </section>
+    </main>
+
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('theme');
+        
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-theme');
+        }
+        
+        themeToggle.addEventListener('click', function() {
+            document.body.classList.toggle('dark-theme');
+            const isDark = document.body.classList.contains('dark-theme');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+    </script>
+</body>
+</html>

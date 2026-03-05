@@ -1,0 +1,616 @@
+/* ========================================
+   VARIÁVEIS DE TEMA
+   ======================================== */
+:root {
+    --cor-fundo-pagina: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --cor-fundo-card: #ffffff;
+    --cor-texto-principal: #333333;
+    --cor-texto-secundario: #555555;
+    --cor-texto-terciario: #666666;
+    --cor-placeholder: #aaaaaa;
+    --cor-borda-input: #e1e1e1;
+    --cor-fundo-input: #ffffff;
+    --cor-primaria: #667eea;
+    --cor-primaria-hover: #764ba2;
+    --cor-gradiente-botao: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --cor-sombra: rgba(0, 0, 0, 0.3);
+    --cor-sombra-botao: rgba(102, 126, 234, 0.4);
+    --cor-borda-footer: #eeeeee;
+    --cor-icone: #999999;
+    --transicao-tema: 0.4s ease;
+}
+
+body.dark-theme {
+    --cor-fundo-pagina: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0f0f1a 100%);
+    --cor-fundo-card: #12121a;
+    --cor-texto-principal: #e8e8e8;
+    --cor-texto-secundario: #b0b0b0;
+    --cor-texto-terciario: #8a8a8a;
+    --cor-placeholder: #5a5a6a;
+    --cor-borda-input: #2a2a3a;
+    --cor-fundo-input: #1a1a28;
+    --cor-primaria: #ff6b35;
+    --cor-primaria-hover: #ff8c5a;
+    --cor-gradiente-botao: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+    --cor-sombra: rgba(0, 0, 0, 0.6);
+    --cor-sombra-botao: rgba(255, 107, 53, 0.4);
+    --cor-borda-footer: #2a2a3a;
+    --cor-icone: #6a6a7a;
+}
+
+/* ========================================
+   RESET
+   ======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: var(--cor-fundo-pagina);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    transition: background var(--transicao-tema);
+}
+
+/* Estrelas no tema dark */
+body.dark-theme::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(2px 2px at 20px 30px, #ffffff20, transparent),
+        radial-gradient(2px 2px at 40px 70px, #ffffff15, transparent),
+        radial-gradient(1px 1px at 90px 40px, #ffffff20, transparent),
+        radial-gradient(2px 2px at 160px 120px, #ffffff15, transparent),
+        radial-gradient(1px 1px at 230px 80px, #ffffff10, transparent),
+        radial-gradient(2px 2px at 300px 150px, #ffffff20, transparent);
+    background-size: 400px 200px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ========================================
+   BOTÃO DE TEMA
+   ======================================== */
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid var(--cor-borda-input);
+    background: var(--cor-fundo-card);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 20px var(--cor-sombra);
+}
+
+.theme-toggle .icon-light,
+.theme-toggle .icon-dark {
+    position: absolute;
+    font-size: 1.5rem;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.theme-toggle .icon-light {
+    opacity: 0;
+    color: #f59e0b;
+}
+
+.theme-toggle .icon-dark {
+    opacity: 1;
+    color: #667eea;
+}
+
+body.dark-theme .theme-toggle .icon-light {
+    opacity: 1;
+}
+
+body.dark-theme .theme-toggle .icon-dark {
+    opacity: 0;
+}
+
+body.dark-theme .theme-toggle {
+    border-color: #ff6b35;
+    box-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
+}
+
+/* ========================================
+   CONTAINER
+   ======================================== */
+main {
+    width: 100%;
+    max-width: 420px;
+    position: relative;
+    z-index: 1;
+}
+
+.auth-container {
+    background: var(--cor-fundo-card);
+    border-radius: 16px;
+    box-shadow: 0 20px 60px var(--cor-sombra);
+    padding: 40px;
+    transition: background var(--transicao-tema), box-shadow var(--transicao-tema);
+}
+
+body.dark-theme .auth-container {
+    border: 1px solid #2a2a3a;
+}
+
+/* ========================================
+   CABEÇALHO
+   ======================================== */
+.auth-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 15px;
+    background: var(--cor-gradiente-botao);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background var(--transicao-tema);
+}
+
+.logo .material-symbols-outlined {
+    font-size: 2rem;
+    color: white;
+}
+
+body.dark-theme .logo {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 0 0 15px rgba(255, 107, 53, 0);
+    }
+}
+
+.auth-container h1,
+.auth-container h2 {
+    color: var(--cor-texto-principal);
+    font-size: 1.75rem;
+    font-weight: 600;
+    transition: color var(--transicao-tema);
+}
+
+body.dark-theme .auth-container h1,
+body.dark-theme .auth-container h2 {
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 1.3rem;
+}
+
+.subtitle {
+    color: var(--cor-texto-terciario);
+    font-size: 0.9rem;
+    margin-top: 5px;
+    transition: color var(--transicao-tema);
+}
+
+body.dark-theme .subtitle {
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    color: var(--cor-primaria);
+}
+
+/* ========================================
+   CAMPOS DO FORMULÁRIO
+   ======================================== */
+.campo {
+    margin-bottom: 20px;
+}
+
+.campo label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--cor-texto-secundario);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color var(--transicao-tema);
+}
+
+body.dark-theme .campo label {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+}
+
+/* ========================================
+   INPUT COM ÍCONE
+   ======================================== */
+.input-wrapper {
+    position: relative;
+    width: 110%;
+}
+
+.input-wrapper .material-symbols-outlined {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--cor-icone);
+    font-size: 1.25rem;
+    pointer-events: none;
+    transition: color var(--transicao-tema);
+}
+
+.input-wrapper input {
+    width: 100%;
+    height: auto;
+    padding: 14px 16px 14px 48px;
+    border: 2px solid var(--cor-borda-input);
+    border-radius: 10px;
+    font-size: 1rem;
+    color: var(--cor-texto-principal);
+    background: var(--cor-fundo-input);
+    transition:
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        background var(--transicao-tema),
+        color var(--transicao-tema);
+}
+
+.input-wrapper input:focus {
+    outline: none;
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+}
+
+body.dark-theme .input-wrapper input:focus {
+    box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.2);
+}
+
+.input-wrapper:focus-within .material-symbols-outlined {
+    color: var(--cor-primaria);
+}
+
+.input-wrapper input::placeholder {
+    color: var(--cor-placeholder);
+}
+
+/* ========================================
+   CHECKBOX
+   ======================================== */
+.campo-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.campo-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--cor-primaria);
+    cursor: pointer;
+}
+
+.campo-checkbox label {
+    color: var(--cor-texto-terciario);
+    font-size: 0.9rem;
+    cursor: pointer;
+    user-select: none;
+    transition: color var(--transicao-tema);
+}
+
+/* ========================================
+   BOTÃO DE ENVIO
+   ======================================== */
+button[type="submit"] {
+    width: 100%;
+    padding: 14px;
+    background: var(--cor-gradiente-botao);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background var(--transicao-tema);
+}
+
+button[type="submit"] .material-symbols-outlined {
+    font-size: 1.2rem;
+}
+
+button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px var(--cor-sombra-botao);
+}
+
+button[type="submit"]:active {
+    transform: translateY(0);
+}
+
+body.dark-theme button[type="submit"] {
+    font-family: 'Orbitron', sans-serif;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* ========================================
+   RODAPÉ / LINKS
+   ======================================== */
+.auth-container>footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid var(--cor-borda-footer);
+    transition: border-color var(--transicao-tema);
+}
+
+.auth-container>footer a,
+.auth-link a {
+    color: var(--cor-primaria);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+}
+
+.auth-container>footer a:hover,
+.auth-link a:hover {
+    color: var(--cor-primaria-hover);
+    text-decoration: underline;
+}
+
+.auth-link {
+    text-align: center;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid var(--cor-borda-footer);
+    color: var(--cor-texto-terciario);
+    font-size: 0.9rem;
+    transition:
+        border-color var(--transicao-tema),
+        color var(--transicao-tema);
+}
+
+/* ========================================
+   RESPONSIVIDADE
+   ======================================== */
+@media (max-width: 480px) {
+    .auth-container {
+        padding: 30px 20px;
+    }
+
+    .auth-container h1,
+    .auth-container h2 {
+        font-size: 1.5rem;
+    }
+
+    body.dark-theme .auth-container h1,
+    body.dark-theme .auth-container h2 {
+        font-size: 1.1rem;
+    }
+
+    .auth-container>footer {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .theme-toggle {
+        top: 10px;
+        right: 10px;
+        width: 45px;
+        height: 45px;
+    }
+
+    .logo {
+        width: 60px;
+        height: 60px;
+    }
+
+    .logo .material-symbols-outlined {
+        font-size: 1.75rem;
+    }
+}
+
+/* ========================================
+   FLASH MESSAGES (Flask)
+   ======================================== */
+.flash-messages {
+    margin-bottom: 20px;
+}
+
+.flash-messages .alert {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.flash-messages .alert-success {
+    background: #d1fae5;
+    color: #059669;
+    border: 1px solid #a7f3d0;
+}
+
+.flash-messages .alert-danger {
+    background: #fee2e2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+}
+
+.flash-messages .alert-info {
+    background: #dbeafe;
+    color: #2563eb;
+    border: 1px solid #bfdbfe;
+}
+
+/* Tema Dark */
+body.dark-theme .flash-messages .alert-success {
+    background: #1a3d2e;
+    color: #4ade80;
+    border-color: #166534;
+}
+
+body.dark-theme .flash-messages .alert-danger {
+    background: #3d1a1a;
+    color: #ff6b6b;
+    border-color: #991b1b;
+}
+
+body.dark-theme .flash-messages .alert-info {
+    background: #1e3a5f;
+    color: #60a5fa;
+    border-color: #1d4ed8;
+}
+
+/* Container centralizado */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg, #2c3e50, #8abbdc);
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Caixa do formulário */
+form {
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    width: 350px;
+    text-align: center;
+}
+
+/* Título */
+h1 {
+    margin-top: 30px;
+    /* margin-bottom: 20px; */
+    font-size: 24px;
+    color: #829ebb;
+    font-weight: bold;
+}
+
+/* Labels */
+label {
+    display: block;
+    text-align: left;
+    margin: 20px;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Inputs */
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+input[type="password"]:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+/* Botão */
+button {
+    width: 100%;
+    padding: 12px;
+    background: #3498db;
+    border: none;
+    margin-top: 30px;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #2980b9;
+}
+
+/* Feedback de mensagens (flash) */
+.flash-message {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #e74c3c;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    /* mantém ícone e texto alinhados verticalmente */
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px 14px;
+    /* aumenta o espaço interno */
+    margin-bottom: 20px;
+}
+
+.input-group span.material-symbols-outlined {
+    font-size: 22px;
+    /* ícone um pouco maior */
+    color: #3498db;
+    margin-right: 10px;
+}
+
+.input-group input {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-size: 16px;
+    /* letras maiores */
+    padding: 12px 0;
+    /* aumenta a altura do campo */
+}
+
+h6 {
+    color: #f8f9fa !important;
+}

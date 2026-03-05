@@ -1,0 +1,9 @@
+D:\JornadaPython\Controle_Clientes_adapta\ControleClientes\Projeto-Python\Controle_de_Planos_Flask\check_db.py
+D:\JornadaPython\Controle_Clientes_adapta\ControleClientes\Projeto-Python\Controle_de_Planos_Flask\fix_all_dates.py
+D:\JornadaPython\Controle_Clientes_adapta\ControleClientes\Projeto-Python\Controle_de_Planos_Flask\fix_dates_vendas.py
+D:\JornadaPython\Controle_Clientes_adapta\ControleClientes\Projeto-Python\Controle_de_Planos_Flask\inspect_db.py
+D:\JornadaPython\Controle_Clientes_adapta\ControleClientes\Projeto-Python\Controle_de_Planos_Flask\inspect_sqlalchemy.py
+D:\JornadaPython\Controle_Clientes_adapta\ControleClientes\Projeto-Python\Controle_de_Planos_Flask\migrate_sales_data.py
+D:\JornadaPython\Controle_Clientes_adapta\ControleClientes\Projeto-Python\Controle_de_Planos_Flask\migrate_schema.py
+D:\JornadaPython\Controle_Clientes_adapta\ControleClientes\Projeto-Python\Controle_de_Planos_Flask\remove_tab_temp.py
+

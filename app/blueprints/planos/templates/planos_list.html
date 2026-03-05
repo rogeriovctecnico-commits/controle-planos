@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Planos{% endblock %}
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Planos</h2>
+    <a class="btn btn-success" href="{{ url_for('planos.create_plano') }}">Novo Plano</a>
+  </div>
+
+  <!-- Formulário de Busca -->
+  <form method="get" action="{{ url_for('planos.list_planos') }}" class="mb-4">
+    <div class="input-group input-group-lg">
+      <input type="search" name="q" class="form-control border-primary" placeholder="Buscar por nome do plano ou descrição..." value="{{ search_term or '' }}">
+      <button class="btn btn-primary fw-bold" type="submit">BUSCAR</button>
+      {% if search_term %}
+        <a href="{{ url_for('planos.list_planos') }}" class="btn btn-outline-danger">Limpar</a>
+      {% endif %}
+    </div>
+  </form>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Plano (Operadora)</th>
+        <th>Valor base</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for plano in planos.items %}
+      <tr>
+        <td><a href="{{ url_for('planos.detail_plano', id=plano.id) }}">{{ plano.nome_plano }} <span class="text-muted">({{ plano.operadora.nome_operadora if plano.operadora else 'N/A' }})</span></a></td>
+        <td>{{ plano.valor_base }}</td>
+        <td class="text-end">
+          <a class="btn btn-sm btn-primary" href="{{ url_for('planos.edit_plano', id=plano.id) }}">Editar</a>
+          <form method="post" action="{{ url_for('planos.delete_plano', id=plano.id) }}" style="display:inline" onsubmit="return confirm('Remover plano?');">
+            <button class="btn btn-sm btn-danger">Remover</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% if planos.pages > 1 %}
+  <nav aria-label="Paginação de planos">
+    <ul class="pagination justify-content-center">
+      <li class="page-item {% if not planos.has_prev %}disabled{% endif %}">
+        <a class="page-link" href="{{ url_for('planos.list_planos', page=planos.prev_num) }}">Anterior</a>
+      </li>
+      {% for page_num in planos.iter_pages() %}
+        <li class="page-item {% if page_num == planos.page %}active{% endif %}">
+          <a class="page-link" href="{{ url_for('planos.list_planos', page=page_num) }}">{{ page_num }}</a>
+        </li>
+      {% endfor %}
+      <li class="page-item {% if not planos.has_next %}disabled{% endif %}">
+        <a class="page-link" href="{{ url_for('planos.list_planos', page=planos.next_num) }}">Próxima</a>
+      </li>
+    </ul>
+  </nav>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+        }
+        h2 {
+            margin-top: 3rem;
+        }
+        canvas {
+            max-width: 700px;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dashboard - Sistema</h1>
+
+    <section>
+        <h2>Vendas Mensais</h2>
+        <canvas id="vendasChart"></canvas>
+    </section>
+
+    <section>
+        <h2>Comissões Mensais</h2>
+        <canvas id="comissoesChart"></canvas>
+    </section>
+
+    <section>
+        <h2>Premiações Mensais</h2>
+        <canvas id="premiacoesChart"></canvas>
+    </section>
+
+    <script>
+        const labels = JSON.parse('{{ labels | safe }}');
+        const vendas = JSON.parse('{{ vendas | safe }}');
+        const comissoes = JSON.parse('{{ comissoes | safe }}');
+        const premiacoes = JSON.parse('{{ premiacoes | safe }}');
+        const valorFinal = JSON.parse('{{ valor_final | safe }}');
+
+        // Gráfico Vendas - linha
+        const ctxVendas = document.getElementById('vendasChart').getContext('2d');
+        const vendasChart = new Chart(ctxVendas, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Vendas Mensais (R$)',
+                    data: vendas,
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: value => 'R$ ' + value.toLocaleString('pt-BR')
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: context => 'R$ ' + context.parsed.y.toLocaleString('pt-BR')
+                        }
+                    }
+                }
+            }
+        });
+
+        // Gráfico Comissões - barras
+        const ctxComissoes = document.getElementById('comissoesChart').getContext('2d');
+        const comissoesChart = new Chart(ctxComissoes, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Comissões Mensais (R$)',
+                    data: comissoes,
+                    backgroundColor: 'rgba(255, 206, 86, 0.7)',
+                    borderColor: 'rgba(255, 206, 86, 1)',
+                    borderWidth: 1,
+                    borderRadius: 5,
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: value => 'R$ ' + value.toLocaleString('pt-BR')
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: context => 'R$ ' + context.parsed.y.toLocaleString('pt-BR')
+                        }
+                    }
+                }
+            }
+        });
+
+        // Gráfico Premiações - barras
+        const ctxPremiacoes = document.getElementById('premiacoesChart').getContext('2d');
+        const premiacoesChart = new Chart(ctxPremiacoes, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Premiações Mensais (R$)',
+                    data: premiacoes,
+                    backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    borderRadius: 5,
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: value => 'R$ ' + value.toLocaleString('pt-BR')
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: context => 'R$ ' + context.parsed.y.toLocaleString('pt-BR')
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,566 @@
+{% extends "base.html" %}
+{% block title %}Painel Inicial{% endblock %}
+
+{% block head_extra %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="row mt-4 animate-fade-in" style="animation-delay: 0.3s;">
+  <div class="col">
+    <h3>Controle de Planos de Saúde - RVC Assessoria e Consultorias</h3>
+    <!-- <p>Use o menu para navegar entre as entidades.</p>-->
+  </div>
+</div>
+
+<!-- Totalizadores -->
+<div class="row g-1 mt-2 animate-fade-in" style="animation-delay: 0.5s;">
+  <!-- Clientes -->
+  <div class="col-sm-6 col-lg-3">
+    <div class="card h-100 shadow-sm border-start border-4 border-secondary">
+      <div class="card-body p-3">
+        <h6 class="card-title text-muted">👥 Clientes</h6>
+        <p class="h3 fw-bold text-secondary counter-anim" data-target="{{ total_clientes }}">0</p>
+        <a href="{{ url_for('clientes.list_clientes') }}" class="stretched-link" aria-label="Ver lista de clientes"
+          title="Ver lista de clientes"></a>
+      </div>
+    </div>
+  </div>
+  <!-- Vendas -->
+  <div class="col-sm-6 col-lg-3">
+    <div class="card h-100 shadow-sm border-start border-4" style="border-color: #20c997 !important;">
+      <div class="card-body p-3">
+        <h6 class="card-title text-muted">💰 Vendas</h6>
+        <p class="h3 fw-bold counter-anim" style="color: #20c997;" data-target="{{ total_vendas }}">0</p>
+        <a href="{{ url_for('vendas.list_vendas') }}" class="stretched-link" aria-label="Ver lista de vendas"
+          title="Ver lista de vendas"></a>
+      </div>
+    </div>
+  </div>
+  <!-- Planos -->
+  <div class="col-sm-6 col-lg-3">
+    <div class="card h-100 shadow-sm border-start border-4 border-success">
+      <div class="card-body p-3">
+        <h6 class="card-title text-muted">📑 Planos</h6>
+        <p class="h3 fw-bold text-success counter-anim" data-target="{{ total_planos }}">0</p>
+        <a href="{{ url_for('planos.list_planos') }}" class="stretched-link" aria-label="Ver lista de planos"
+          title="Ver lista de planos"></a>
+      </div>
+    </div>
+  </div>
+  <!-- Operadoras -->
+  <div class="col-sm-6 col-lg-3">
+    <div class="card h-100 shadow-sm border-start border-4 border-primary">
+      <div class="card-body p-3">
+        <h6 class="card-title text-muted">🏢 Operadoras</h6>
+        <p class="h3 fw-bold text-primary counter-anim" data-target="{{ total_operadoras }}">0</p>
+        <a href="{{ url_for('operadoras.list_operadoras') }}" class="stretched-link"
+          aria-label="Ver lista de operadoras" title="Ver lista de operadoras"></a>
+      </div>
+    </div>
+  </div>
+  <!-- Administradoras -->
+  <div class="col-sm-6 col-lg-3">
+    <div class="card h-100 shadow-sm border-start border-4" style="border-color: #a855f7 !important;">
+      <div class="card-body p-3">
+        <h6 class="card-title text-muted">🏢 Administradoras</h6>
+        <p class="h3 fw-bold counter-anim" style="color: #a855f7;" data-target="{{ total_administradoras }}">0</p>
+        <a href="{{ url_for('administradoras.list_administradoras') }}" class="stretched-link"
+          aria-label="Ver lista de administradoras" title="Ver lista de administradoras"></a>
+      </div>
+    </div>
+  </div>
+  <!-- Preços -->
+  <div class="col-sm-6 col-lg-3">
+    <div class="card h-100 shadow-sm border-start border-4 border-info">
+      <div class="card-body p-3">
+        <h6 class="card-title text-muted">💲 Preços (Faixa)</h6>
+        <p class="h3 fw-bold text-info counter-anim" data-target="{{ total_precos }}">0</p>
+        <a href="{{ url_for('precos.list_precos') }}" class="stretched-link" aria-label="Ver lista de preços"
+          title="Ver lista de preços"></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gráfico de Ganhos -->
+  <div class="row mt-3 animate-fade-in" style="animation-delay: 0.4s;">
+    <div class="col-12">
+      <div class="card shadow-sm">
+        <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+          <h5 class="card-title mb-0 text-nowrap">Evolução de Ganhos</h5>
+
+          <div class="d-flex gap-2 align-items-center flex-wrap justify-content-end">
+            <div class="input-group input-group-sm" style="max-width: 300px;">
+              <label for="ganhosInicio" class="input-group-text">Início</label>
+              <input type="date" id="ganhosInicio" class="form-control" onchange="atualizarGraficoGanhos()"
+                title="Data de Início">
+              <label for="ganhosFim" class="input-group-text">Fim</label>
+              <input type="date" id="ganhosFim" class="form-control" onchange="atualizarGraficoGanhos()"
+                title="Data de Fim">
+            </div>
+            <div class="btn-group btn-group-sm" role="group" aria-label="Filtro de Tempo" id="btnGroupGanhos">
+              <button type="button" class="btn btn-outline-secondary active" data-periodo="mensal"
+                onclick="filtrarGraficoGanhos('mensal', this)">Mensal</button>
+              <button type="button" class="btn btn-outline-secondary" data-periodo="trimestral"
+                onclick="filtrarGraficoGanhos('trimestral', this)">Trimestral</button>
+              <button type="button" class="btn btn-outline-secondary" data-periodo="anual"
+                onclick="filtrarGraficoGanhos('anual', this)">Anual</button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <canvas id="graficoGanhos" style="width: 100%; height: 300px;"
+            data-labels='{{ grafico_labels | default([]) | tojson }}'
+            data-comissao='{{ grafico_comissao | default([]) | tojson }}'
+            data-premiacao='{{ grafico_premiacao | default([]) | tojson }}'
+            data-valor-total='{{ grafico_valor_final | default([]) | tojson }}'></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
+
+  {% block scripts %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // --- Animação de Contagem (Counter Up) ---
+      const counters = document.querySelectorAll('.counter-anim');
+      counters.forEach(counter => {
+        // Pega o valor alvo. Se não for número (ex: R$ 100), tenta limpar ou ignora
+        let rawTarget = counter.getAttribute('data-target');
+        // Remove caracteres não numéricos se necessário, ou assume que é int
+        const target = parseFloat(rawTarget);
+
+        if (!isNaN(target)) {
+          const duration = 1500; // Duração em ms
+          const increment = target / (duration / 16); // ~60fps
+          let current = 0;
+          const updateCounter = () => {
+            current += increment;
+            if (current < target) {
+              counter.innerText = Math.ceil(current);
+              requestAnimationFrame(updateCounter);
+            } else {
+              counter.innerText = rawTarget; // Garante o valor final exato (com formatação se houver)
+            }
+          };
+          updateCounter();
+        } else {
+          // Se não for número (ex: texto), mostra direto
+          counter.innerText = rawTarget;
+        }
+      });
+
+      // Registra o plugin de rótulos de dados (valores acima das barras)
+      Chart.register(ChartDataLabels);
+
+      // Gráfico de Ganhos
+      const ctx = document.getElementById('graficoGanhos');
+      window.chartGanhos = null;
+      window.ganhosOriginalLabels = [];
+      window.ganhosOriginalComissao = [];
+      window.ganhosOriginalPremiacao = [];
+      window.ganhosOriginalValorTotal = [];
+
+      if (ctx) {
+        let labels = JSON.parse(ctx.dataset.labels || '[]');
+        let dataComissao = JSON.parse(ctx.dataset.comissao || '[]');
+        let dataPremiacao = JSON.parse(ctx.dataset.premiacao || '[]');
+        let dataValorTotal = JSON.parse(ctx.dataset.valorTotal || '[]');
+
+        // Salva cópia dos dados originais para os filtros
+        window.ganhosOriginalLabels = labels;
+        window.ganhosOriginalComissao = dataComissao;
+        window.ganhosOriginalPremiacao = dataPremiacao;
+        window.ganhosOriginalValorTotal = dataValorTotal;
+
+        // Fallback: Se não houver dados, cria dados zerados para o gráfico aparecer
+        if (!labels || labels.length === 0) {
+          labels = ['Sem dados'];
+          dataComissao = [0];
+          dataPremiacao = [0];
+          dataValorTotal = [0];
+        }
+
+        window.chartGanhos = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: 'Comissão',
+                data: dataComissao,
+                backgroundColor: 'rgba(32,201,151,0.8)',
+                borderRadius: 4,
+                stack: 'ganhos',
+                yAxisID: 'y'
+              },
+              {
+                label: 'Premiação',
+                data: dataPremiacao,
+                backgroundColor: 'rgba(255,193,7,0.8)',
+                borderRadius: 4,
+                stack: 'ganhos',
+                yAxisID: 'y'
+              },
+              {
+                type: 'line', // Transforma o Valor Total em Linha para comparação
+                label: 'Vol. Vendas (Total)',
+                data: dataValorTotal,
+                borderColor: 'rgba(13,110,253,0.8)',
+                backgroundColor: 'rgba(13,110,253,0.1)',
+                borderWidth: 2,
+                tension: 0.4,
+                yAxisID: 'y1' // Eixo da direita
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                type: 'linear',
+                display: true,
+                position: 'left',
+                title: { display: true, text: 'Ganhos (R$)' },
+                beginAtZero: true,
+                stacked: true,
+                ticks: { callback: function (value) { return 'R$ ' + value.toLocaleString('pt-BR', { minimumFractionDigits: 2 }); } }
+              },
+              y1: {
+                type: 'linear',
+                display: true,
+                position: 'right',
+                title: { display: true, text: 'Volume de Vendas (R$)' },
+                grid: { drawOnChartArea: false }, // Remove grade do eixo secundário para limpar o visual
+                ticks: { callback: function (value) { return 'R$ ' + value.toLocaleString('pt-BR', { compactDisplay: "short", notation: "compact" }); } }
+              },
+              x: { stacked: true }
+            },
+            plugins: {
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    let label = context.dataset.label || '';
+                    if (label) label += ': ';
+                    if (context.parsed.y !== null) label += new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(context.parsed.y);
+                    return label;
+                  }
+                }
+              },
+              datalabels: {
+                align: 'end',
+                anchor: 'end',
+                color: '#555',
+                font: { weight: 'bold', size: 10 },
+                formatter: function (value, context) {
+                  if (value === 0) return ''; // Não mostra zeros
+                  // Mostra valor compacto para caber (ex: 1.2k) ou normal se houver espaço
+                  if (value > 10000) return 'R$ ' + (value / 1000).toFixed(1) + 'k';
+                  return 'R$ ' + value.toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+                }
+              }
+            }
+          }
+        });
+      }
+      // Gráfico de Vendas
+      const ctxVendas = document.getElementById('graficoVendas');
+      // Variáveis globais para armazenar os dados originais e a instância do gráfico
+      window.chartVendas = null;
+      window.vendasOriginalLabels = [];
+      window.vendasOriginalData = [];
+
+      if (ctxVendas) {
+        let labelsVendas = JSON.parse(ctxVendas.dataset.labels || '[]');
+        let dataTotais = JSON.parse(ctxVendas.dataset.totais || '[]');
+
+        // Salva cópia dos dados originais (mensais) para usar nos filtros
+        window.vendasOriginalLabels = labelsVendas;
+        window.vendasOriginalData = dataTotais;
+
+        // Fallback: Se não houver dados, cria dados zerados para o gráfico aparecer
+        if (!labelsVendas || labelsVendas.length === 0) {
+          labelsVendas = ['Sem dados'];
+          dataTotais = [0];
+        }
+
+        window.chartVendas = new Chart(ctxVendas, {
+          type: 'line',
+          data: {
+            labels: labelsVendas,
+            datasets: [{
+              label: 'Total de Vendas',
+              data: dataTotais,
+              borderColor: 'rgba(13,110,253,0.8)',   // azul
+              backgroundColor: 'rgba(13,110,253,0.4)', // preenchimento leve
+              borderWidth: 2,
+              fill: true,
+              tension: 0.4, // suaviza a linha
+              pointRadius: 4,
+              pointBackgroundColor: '#fff',
+              pointBorderColor: 'rgba(13,110,253,1)',
+              pointBorderWidth: 2
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  callback: function (value) {
+                    return 'R$ ' + value.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+                  }
+                }
+              }
+            },
+            plugins: {
+              legend: {
+                labels: {
+                  color: '#333'
+                }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    let label = context.dataset.label || '';
+                    if (label) label += ': ';
+                    if (context.parsed.y !== null) label += new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(context.parsed.y);
+                    return label;
+                  }
+                }
+              },
+              datalabels: {
+                align: 'top',
+                anchor: 'end',
+                color: '#0d6efd',
+                font: { weight: 'bold' },
+                formatter: function (value) {
+                  return 'R$ ' + value.toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+                }
+              }
+            }
+          }
+        });
+      }
+
+      // Função auxiliar para atualizar gráfico quando mudar a data
+      window.atualizarGraficoVendas = function () {
+        const activeBtn = document.querySelector('#btnGroupVendas .active');
+        const periodo = activeBtn ? activeBtn.dataset.periodo : 'mensal';
+        filtrarGraficoVendas(periodo, null); // Passa null no btn para não resetar classes
+      };
+
+      // Função para filtrar o gráfico de vendas (Mensal / Trimestral / Anual)
+      window.filtrarGraficoVendas = function (periodo, btn) {
+        // Atualiza visual dos botões
+        if (btn) {
+          const group = btn.parentElement;
+          group.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        }
+
+        if (!window.chartVendas) return;
+
+        let newLabels = [];
+        let newData = [];
+
+        // 1. Filtragem por Data (Datepicker)
+        const inputInicio = document.getElementById('vendasInicio').value;
+        const inputFim = document.getElementById('vendasFim').value;
+
+        let filteredLabels = window.vendasOriginalLabels;
+        let filteredData = window.vendasOriginalData;
+
+        if (inputInicio || inputFim) {
+          const dataInicio = inputInicio ? new Date(inputInicio) : null;
+          const dataFim = inputFim ? new Date(inputFim) : null;
+          if (dataFim) dataFim.setHours(23, 59, 59, 999);
+
+          const indices = filteredLabels.map((label, index) => {
+            const parts = label.split('/');
+            if (parts.length < 2) return null;
+
+            let monthStr = parts[0].toLowerCase();
+            let year = parseInt(parts[1]);
+
+            const monthMap = {
+              'jan': 0, 'fev': 1, 'mar': 2, 'abr': 3, 'mai': 4, 'jun': 5,
+              'jul': 6, 'ago': 7, 'set': 8, 'out': 9, 'nov': 10, 'dez': 11,
+              '01': 0, '02': 1, '03': 2, '04': 3, '05': 4, '06': 5,
+              '07': 6, '08': 7, '09': 8, '10': 9, '11': 10, '12': 11
+            };
+
+            let month = monthMap[monthStr.substring(0, 3)] !== undefined ? monthMap[monthStr.substring(0, 3)] : parseInt(monthStr) - 1;
+            if (isNaN(month) || isNaN(year)) return null;
+
+            const date = new Date(year, month, 1);
+            if (dataInicio && date < dataInicio) return null;
+            if (dataFim && date > dataFim) return null;
+            return index;
+          }).filter(i => i !== null);
+
+          filteredLabels = indices.map(i => window.vendasOriginalLabels[i]);
+          filteredData = indices.map(i => window.vendasOriginalData[i]);
+        }
+
+        // 2. Agregação (Mensal / Trimestral / Anual)
+        const sourceLabels = filteredLabels;
+        const sourceData = filteredData;
+
+        if (periodo === 'mensal') {
+          newLabels = sourceLabels;
+          newData = sourceData;
+        } else if (periodo === 'trimestral') {
+          // Agrupa a cada 3 meses
+          for (let i = 0; i < sourceLabels.length; i += 3) {
+            let sum = 0;
+            // Soma os próximos 3 meses (ou o que restar)
+            for (let j = 0; j < 3; j++) {
+              if (i + j < sourceData.length) sum += Number(sourceData[i + j]);
+            }
+            // Cria label ex: "Jan (Tri)"
+            let label = sourceLabels[i] ? sourceLabels[i].split('/')[0] : '';
+            newLabels.push(label + ' (Tri)');
+            newData.push(sum);
+          }
+        } else if (periodo === 'anual') {
+          // Agrupa a cada 12 meses
+          for (let i = 0; i < sourceLabels.length; i += 12) {
+            let sum = 0;
+            for (let j = 0; j < 12; j++) {
+              if (i + j < sourceData.length) sum += Number(sourceData[i + j]);
+            }
+            newLabels.push('Ano ' + (Math.floor(i / 12) + 1));
+            newData.push(sum);
+          }
+        }
+
+        window.chartVendas.data.labels = newLabels;
+        window.chartVendas.data.datasets[0].data = newData;
+        window.chartVendas.update();
+      };
+
+      // Função auxiliar para atualizar gráfico de Ganhos quando mudar a data
+      window.atualizarGraficoGanhos = function () {
+        const activeBtn = document.querySelector('#btnGroupGanhos .active');
+        const periodo = activeBtn ? activeBtn.dataset.periodo : 'mensal';
+        filtrarGraficoGanhos(periodo, null); // Passa null no btn para não resetar classes
+      };
+
+      // Função para filtrar o gráfico de Ganhos (Mensal / Trimestral / Anual)
+      window.filtrarGraficoGanhos = function (periodo, btn) {
+        if (btn) {
+          const group = btn.parentElement;
+          group.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        }
+
+        if (!window.chartGanhos) return;
+
+        let newLabels = [];
+        let newComissao = [];
+        let newPremiacao = [];
+        let newValorTotal = [];
+
+        // 1. Filtragem por Data (Datepicker)
+        const inputInicio = document.getElementById('ganhosInicio').value;
+        const inputFim = document.getElementById('ganhosFim').value;
+
+        let filteredLabels = window.ganhosOriginalLabels;
+        let filteredComissao = window.ganhosOriginalComissao;
+        let filteredPremiacao = window.ganhosOriginalPremiacao;
+        let filteredValorTotal = window.ganhosOriginalValorTotal;
+
+        if (inputInicio || inputFim) {
+          const dataInicio = inputInicio ? new Date(inputInicio) : null;
+          const dataFim = inputFim ? new Date(inputFim) : null;
+          if (dataFim) dataFim.setHours(23, 59, 59, 999);
+
+          const indices = filteredLabels.map((label, index) => {
+            const parts = label.split('/');
+            if (parts.length < 2) return null;
+
+            let monthStr = parts[0].toLowerCase();
+            let year = parseInt(parts[1]);
+
+            const monthMap = {
+              'jan': 0, 'fev': 1, 'mar': 2, 'abr': 3, 'mai': 4, 'jun': 5,
+              'jul': 6, 'ago': 7, 'set': 8, 'out': 9, 'nov': 10, 'dez': 11,
+              '01': 0, '02': 1, '03': 2, '04': 3, '05': 4, '06': 5,
+              '07': 6, '08': 7, '09': 8, '10': 9, '11': 10, '12': 11
+            };
+
+            let month = monthMap[monthStr.substring(0, 3)] !== undefined ? monthMap[monthStr.substring(0, 3)] : parseInt(monthStr) - 1;
+            if (isNaN(month) || isNaN(year)) return null;
+
+            const date = new Date(year, month, 1);
+            if (dataInicio && date < dataInicio) return null;
+            if (dataFim && date > dataFim) return null;
+            return index;
+          }).filter(i => i !== null);
+
+          filteredLabels = indices.map(i => window.ganhosOriginalLabels[i]);
+          filteredComissao = indices.map(i => window.ganhosOriginalComissao[i]);
+          filteredPremiacao = indices.map(i => window.ganhosOriginalPremiacao[i]);
+          filteredValorTotal = indices.map(i => window.ganhosOriginalValorTotal[i]);
+        }
+
+        // 2. Agregação (Mensal / Trimestral / Anual)
+        const sourceLabels = filteredLabels;
+        const sourceComissao = filteredComissao;
+        const sourcePremiacao = filteredPremiacao;
+        const sourceValorTotal = filteredValorTotal;
+
+        if (periodo === 'mensal') {
+          newLabels = sourceLabels;
+          newComissao = sourceComissao;
+          newPremiacao = sourcePremiacao;
+          newValorTotal = sourceValorTotal;
+        } else if (periodo === 'trimestral') {
+          for (let i = 0; i < sourceLabels.length; i += 3) {
+            let sumCom = 0, sumPrem = 0, sumTotal = 0;
+            for (let j = 0; j < 3; j++) {
+              if (i + j < sourceLabels.length) {
+                sumCom += Number(sourceComissao[i + j] || 0);
+                sumPrem += Number(sourcePremiacao[i + j] || 0);
+                sumTotal += Number(sourceValorTotal[i + j] || 0);
+              }
+            }
+            let label = sourceLabels[i] ? sourceLabels[i].split('/')[0] : '';
+            newLabels.push(label + ' (Tri)');
+            newComissao.push(sumCom);
+            newPremiacao.push(sumPrem);
+            newValorTotal.push(sumTotal);
+          }
+        } else if (periodo === 'anual') {
+          for (let i = 0; i < sourceLabels.length; i += 12) {
+            let sumCom = 0, sumPrem = 0, sumTotal = 0;
+            for (let j = 0; j < 12; j++) {
+              if (i + j < sourceLabels.length) {
+                sumCom += Number(sourceComissao[i + j] || 0);
+                sumPrem += Number(sourcePremiacao[i + j] || 0);
+                sumTotal += Number(sourceValorTotal[i + j] || 0);
+              }
+            }
+            newLabels.push('Ano ' + (Math.floor(i / 12) + 1));
+            newComissao.push(sumCom);
+            newPremiacao.push(sumPrem);
+            newValorTotal.push(sumTotal);
+          }
+        }
+
+        window.chartGanhos.data.labels = newLabels;
+        window.chartGanhos.data.datasets[0].data = newComissao;
+        window.chartGanhos.data.datasets[1].data = newPremiacao;
+        window.chartGanhos.data.datasets[2].data = newValorTotal;
+        window.chartGanhos.update();
+      };
+    });
+  </script>
+  {% endblock %}

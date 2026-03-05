@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Administradoras{% endblock %}
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Administradoras</h2>
+    <a class="btn btn-success" href="{{ url_for('administradoras.create_administradora') }}">Nova Administradora</a>
+  </div>
+
+  <!-- Formulário de Busca -->
+  <form method="get" action="{{ url_for('administradoras.list_administradoras') }}" class="mb-4">
+    <div class="input-group input-group-lg">
+      <input type="search" name="q" class="form-control border-primary" placeholder="Buscar por nome da administradora..." value="{{ search_term or '' }}">
+      <button class="btn btn-primary fw-bold" type="submit">BUSCAR</button>
+      {% if search_term %}
+        <a href="{{ url_for('administradoras.list_administradoras') }}" class="btn btn-outline-danger">Limpar</a>
+      {% endif %}
+    </div>
+  </form>
+
+  <table class="table table-striped">
+    <thead><tr><th>Nome</th><th></th></tr></thead>
+    <tbody>
+      {% for a in administradoras.items %}
+      <tr>
+        <td>{{ a.nome_administradora }}</td>
+        <td class="text-end">
+          <a class="btn btn-sm btn-primary" href="{{ url_for('administradoras.edit_administradora', id=a.id) }}">Editar</a>
+          <form method="post" action="{{ url_for('administradoras.delete_administradora', id=a.id) }}" class="d-inline" onsubmit="return confirm('Tem certeza que deseja remover a administradora \'{{ a.nome_administradora }}\'?');">
+            <button type="submit" class="btn btn-sm btn-danger">Remover</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% if administradoras.pages > 1 %}
+  <nav>
+    <ul class="pagination justify-content-center">
+      {% for page_num in administradoras.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2) %}
+        <li class="page-item {% if administradoras.page == page_num %}active{% endif %}"><a class="page-link" href="{{ url_for('administradoras.list_administradoras', page=page_num, q=search_term) }}">{{ page_num }}</a></li>
+      {% endfor %}
+    </ul>
+  </nav>
+  {% endif %}
+{% endblock %}

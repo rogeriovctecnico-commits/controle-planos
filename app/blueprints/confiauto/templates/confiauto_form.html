@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+  <h2>{{ title }}</h2>
+  <form method="post">
+    {{ form.hidden_tag() }}
+    <div class="mb-3">
+      {{ form.cliente_confiauto_id.label(class="form-label") }}
+      {{ form.cliente_confiauto_id(class="form-select") }}
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        {{ form.veiculo_marca.label(class="form-label") }}
+        {{ form.veiculo_marca(class="form-control") }}
+      </div>
+      <div class="col-md-4 mb-3">
+        {{ form.veiculo_modelo.label(class="form-label") }}
+        {{ form.veiculo_modelo(class="form-control") }}
+      </div>
+      <div class="col-md-5 mb-3">
+        {{ form.veiculo_ano.label(class="form-label") }}
+        {{ form.veiculo_ano(class="form-control") }}
+      </div>
+      <div class="col-md-5 mb-3">
+        {{ form.veiculo_placa.label(class="form-label") }}
+        {{ form.veiculo_placa(class="form-control") }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 mb-3">
+        {{ form.valor_ativacao.label(class="form-label") }}
+        {{ form.valor_ativacao(class="form-control") }}
+      </div>
+    </div>
+    <div class="mb-3">
+      {{ form.observacoes.label(class="form-label") }}
+      {{ form.observacoes(class="form-control", rows=3) }}
+    </div>
+    {{ form.submit(class="btn btn-primary") }}
+    <a class="btn btn-secondary" href="{{ url_for('confiauto.list_confiauto') }}">Cancelar</a>
+  </form>
+{% endblock %}

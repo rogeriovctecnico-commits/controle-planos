@@ -1,0 +1,833 @@
+/* ========================================
+   ESTILOS EXISTENTES - LOGIN
+   (Mantidos como estavam)
+   ======================================== */
+
+/* Estilo geral da página */
+body {
+  background-color: #1f1681;
+  background: url("../img/medicos-desfacados.png") no-repeat center center fixed;
+  background-size: cover;
+  color: #05090f;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* Margem superior para elementos */
+.mt-3 {
+  color: #05090f;
+  font-size: 20px;
+}
+
+/* Cartão de login */
+.login-card {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 2rem;
+  background: #06411b;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Formulário de login */
+.form-signin {
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  margin: auto;
+}
+
+/* Campos de formulário */
+.form-control {
+  color: #03010c;
+  border: 1px solid #020812;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.form-control:focus {
+  border-color: #4F46E5;
+  box-shadow: 0 0 0 0.2rem rgba(79,70,229,0.25);
+  outline: none;
+}
+
+/* Botão principal */
+.btn-primary {
+  background-color: #4F46E5;
+  border: none;
+  border-radius: 0.5rem;
+  color: #fff;
+  padding: 0.75rem;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #06B6D4;
+}
+
+/* ========================================
+   NOVOS ESTILOS - DASHBOARD
+   (Adicionados abaixo)
+   ======================================== */
+
+/* ========================================
+   VARIÁVEIS DE CORES - TEMA DARK
+   ======================================== */
+:root {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-card: #1e293b;
+  --bg-sidebar: #0f172a;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --border-color: #334155;
+  --accent-primary: #3b82f6;
+  --accent-success: #22c55e;
+  --accent-warning: #f59e0b;
+  --accent-danger: #ef4444;
+  --accent-info: #06b6d4;
+  --accent-purple: #8b5cf6;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Tema claro */
+[data-theme="light"] {
+  --bg-primary: #f1f5f9;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --bg-sidebar: #1e293b;
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================
+   DASHBOARD PAGE - SOBRESCREVE O BODY
+   ======================================== */
+.dashboard-page {
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%) !important;
+  display: block !important;
+  align-items: initial !important;
+  justify-content: initial !important;
+}
+
+[data-theme="light"] .dashboard-page {
+  background: linear-gradient(135deg, #e2e8f0 0%, #f1f5f9 100%) !important;
+}
+
+/* ========================================
+   SIDEBAR - MENU LATERAL
+   ======================================== */
+#sidebar {
+  background: var(--bg-sidebar) !important;
+  border-right: 1px solid var(--border-color);
+  box-shadow: 4px 0 15px var(--shadow-color);
+}
+
+#sidebar-content {
+  padding: 1.5rem !important;
+}
+
+#sidebar h5 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Links do menu */
+#sidebar .nav-link {
+  color: var(--text-secondary);
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.25rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#sidebar .nav-link:hover {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--text-primary);
+  transform: translateX(5px);
+}
+
+#sidebar .nav-link.active {
+  background: linear-gradient(135deg, var(--accent-primary), #1d4ed8);
+  color: white !important;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+#sidebar .nav-link .text-muted {
+  font-size: 0.7rem;
+  opacity: 0.6;
+}
+
+/* Cores específicas dos links do menu */
+#sidebar .nav-link.text-success { color: var(--accent-success) !important; }
+#sidebar .nav-link.text-info { color: var(--accent-info) !important; }
+#sidebar .nav-link.text-primary { color: var(--accent-primary) !important; }
+#sidebar .nav-link.text-secondary { color: var(--text-secondary) !important; }
+#sidebar .nav-link.vendas-link { color: var(--accent-warning) !important; }
+#sidebar .nav-link.admin-link { color: var(--accent-purple) !important; }
+
+#sidebar .nav-link.text-success:hover,
+#sidebar .nav-link.text-info:hover,
+#sidebar .nav-link.text-primary:hover,
+#sidebar .nav-link.text-secondary:hover,
+#sidebar .nav-link.vendas-link:hover,
+#sidebar .nav-link.admin-link:hover {
+  color: white !important;
+  background: rgba(59, 130, 246, 0.15);
+}
+
+/* ========================================
+   BOTÃO DE TEMA
+   ======================================== */
+.theme-toggle-btn {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+.theme-toggle-btn:hover {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: white;
+}
+
+/* ========================================
+   CONTEÚDO PRINCIPAL DO DASHBOARD
+   ======================================== */
+.dashboard-page main {
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+.dashboard-page .container-fluid {
+  max-width: 1600px;
+}
+
+/* ========================================
+   TÍTULOS E TEXTOS NO DASHBOARD
+   ======================================== */
+.dashboard-page h1,
+.dashboard-page .h1,
+.dashboard-page h2,
+.dashboard-page .h2,
+.dashboard-page h3,
+.dashboard-page .h3 {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.dashboard-page .text-muted {
+  color: var(--text-muted) !important;
+}
+
+.dashboard-page p {
+  color: var(--text-secondary);
+}
+
+/* ========================================
+   CARDS DO DASHBOARD
+   ======================================== */
+.dashboard-page .card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px var(--shadow-color);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.dashboard-page .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px var(--shadow-color);
+  border-color: var(--accent-primary);
+}
+
+.dashboard-page .card-body {
+  padding: 1.5rem;
+}
+
+.dashboard-page .card-title {
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-page .card-text {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* Números grandes nos cards */
+.dashboard-page .display-6 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+}
+
+/* ========================================
+   BOTÕES NO DASHBOARD
+   ======================================== */
+.dashboard-page .btn-primary {
+  background: linear-gradient(135deg, var(--accent-primary), #1d4ed8);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 500;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+  transition: all 0.2s ease;
+  width: auto;
+}
+
+.dashboard-page .btn-primary:hover {
+  background: linear-gradient(135deg, #1d4ed8, var(--accent-primary));
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+  color: white;
+}
+
+.dashboard-page .btn-success {
+  background: linear-gradient(135deg, var(--accent-success), #16a34a);
+  color: white;
+  border: none;
+}
+
+.dashboard-page .btn-warning {
+  background: linear-gradient(135deg, var(--accent-warning), #d97706);
+  color: white;
+  border: none;
+}
+
+.dashboard-page .btn-danger {
+  background: linear-gradient(135deg, var(--accent-danger), #dc2626);
+  color: white;
+  border: none;
+}
+
+.dashboard-page .btn-secondary {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+
+/* ========================================
+   TABELAS NO DASHBOARD
+   ======================================== */
+.dashboard-page .table {
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+.dashboard-page .table thead th {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-weight: 600;
+  border-bottom: 2px solid var(--border-color);
+  padding: 1rem;
+}
+
+.dashboard-page .table tbody td {
+  padding: 1rem;
+  vertical-align: middle;
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+}
+
+.dashboard-page .table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.dashboard-page .table tbody tr:hover {
+  background: rgba(59, 130, 246, 0.05);
+}
+
+/* ========================================
+   FORMULÁRIOS NO DASHBOARD
+   ======================================== */
+.dashboard-page .form-control,
+.dashboard-page .form-select {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+}
+
+.dashboard-page .form-control:focus,
+.dashboard-page .form-select:focus {
+  background: var(--bg-secondary);
+  border-color: var(--accent-primary);
+  color: var(--text-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.dashboard-page .form-control::placeholder {
+  color: var(--text-muted);
+}
+
+.dashboard-page .form-label {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* ========================================
+   ALERTAS NO DASHBOARD
+   ======================================== */
+.dashboard-page .alert {
+  border-radius: 12px;
+  border: none;
+  padding: 1rem 1.25rem;
+}
+
+.dashboard-page .alert-success {
+  background: rgba(34, 197, 94, 0.15);
+  color: var(--accent-success);
+  border-left: 4px solid var(--accent-success);
+}
+
+.dashboard-page .alert-danger {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--accent-danger);
+  border-left: 4px solid var(--accent-danger);
+}
+
+.dashboard-page .alert-warning {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--accent-warning);
+  border-left: 4px solid var(--accent-warning);
+}
+
+.dashboard-page .alert-info {
+  background: rgba(6, 182, 212, 0.15);
+  color: var(--accent-info);
+  border-left: 4px solid var(--accent-info);
+}
+
+/* ========================================
+   BADGES NO DASHBOARD
+   ======================================== */
+.dashboard-page .badge.bg-success {
+  background: rgba(34, 197, 94, 0.2) !important;
+  color: var(--accent-success);
+}
+
+.dashboard-page .badge.bg-danger {
+  background: rgba(239, 68, 68, 0.2) !important;
+  color: var(--accent-danger);
+}
+/* ========================================
+   BADGES NO DASHBOARD (continuação)
+   ======================================== */
+.dashboard-page .badge.bg-warning {
+  background: rgba(245, 158, 11, 0.2) !important;
+  color: var(--accent-warning);
+}
+
+.dashboard-page .badge.bg-info {
+  background: rgba(6, 182, 212, 0.2) !important;
+  color: var(--accent-info);
+}
+
+.dashboard-page .badge.bg-primary {
+  background: rgba(59, 130, 246, 0.2) !important;
+  color: var(--accent-primary);
+}
+
+/* ========================================
+   MODAIS NO DASHBOARD
+   ======================================== */
+.dashboard-page .modal-content {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+}
+
+.dashboard-page .modal-header {
+  border-bottom: 1px solid var(--border-color);
+  padding: 1.25rem 1.5rem;
+}
+
+.dashboard-page .modal-title {
+  color: var(--text-primary);
+}
+
+.dashboard-page .modal-body {
+  padding: 1.5rem;
+  color: var(--text-secondary);
+}
+
+.dashboard-page .modal-footer {
+  border-top: 1px solid var(--border-color);
+  padding: 1rem 1.5rem;
+}
+
+.dashboard-page .btn-close {
+  filter: invert(1);
+  opacity: 0.5;
+}
+
+.dashboard-page .btn-close:hover {
+  opacity: 1;
+}
+
+/* ========================================
+   PAGINAÇÃO NO DASHBOARD
+   ======================================== */
+.dashboard-page .pagination .page-link {
+  background: var(--bg-secondary);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.dashboard-page .pagination .page-link:hover {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: white;
+}
+
+.dashboard-page .pagination .page-item.active .page-link {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+.dashboard-page footer {
+  background: transparent;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-color);
+  margin-left: var(--sidebar-width);
+  transition: margin-left 0.3s ease;
+}
+
+#sidebar.toggled ~ footer {
+  margin-left: 0;
+}
+
+/* ========================================
+   GRÁFICOS (Canvas do Chart.js)
+   ======================================== */
+.dashboard-page canvas {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+/* ========================================
+   DROPDOWN NO DASHBOARD
+   ======================================== */
+.dashboard-page .dropdown-menu {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px var(--shadow-color);
+}
+
+.dashboard-page .dropdown-item {
+  color: var(--text-secondary);
+  padding: 0.5rem 1rem;
+}
+
+.dashboard-page .dropdown-item:hover {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--text-primary);
+}
+
+/* ========================================
+   SCROLLBAR PERSONALIZADA
+   ======================================== */
+.dashboard-page ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.dashboard-page ::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+.dashboard-page ::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.dashboard-page ::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ========================================
+   RESPONSIVIDADE
+   ======================================== */
+@media (max-width: 992px) {
+  .dashboard-page main {
+    padding: 1rem;
+  }
+  
+  .dashboard-page .card-body {
+    padding: 1rem;
+  }
+  
+  .dashboard-page .display-6 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  #sidebar {
+    margin-left: calc(var(--sidebar-width) * -1);
+  }
+  
+  #sidebar.toggled {
+    margin-left: 0;
+  }
+  
+  .dashboard-page main {
+    margin-left: 0 !important;
+  }
+  
+  .dashboard-page footer {
+    margin-left: 0 !important;
+  }
+}
+
+/* ========================================
+   ANIMAÇÕES
+   ======================================== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dashboard-page .card {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.dashboard-page .card:nth-child(1) { animation-delay: 0.1s; }
+.dashboard-page .card:nth-child(2) { animation-delay: 0.2s; }
+.dashboard-page .card:nth-child(3) { animation-delay: 0.3s; }
+.dashboard-page .card:nth-child(4) { animation-delay: 0.4s; }
+.dashboard-page .card:nth-child(5) { animation-delay: 0.5s; }
+.dashboard-page .card:nth-child(6) { animation-delay: 0.6s; }
+
+/* ========================================
+   TEMA CLARO - AJUSTES ESPECÍFICOS
+   ======================================== */
+[data-theme="light"] .dashboard-page .card {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .dashboard-page .card:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] #sidebar {
+  background: #1e293b !important;
+}
+
+[data-theme="light"] #sidebar .nav-link {
+  color: #94a3b8;
+}
+
+[data-theme="light"] #sidebar .nav-link:hover {
+  color: #f1f5f9;
+}
+
+[data-theme="light"] .dashboard-page .btn-close {
+  filter: none;
+}
+/* ============================================
+   PÁGINA DE CLIENTES - Tema Dark (Bootstrap Override)
+   ============================================ */
+
+/* === CABEÇALHO COM TÍTULO E BOTÕES === */
+.clientes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #30363d;
+}
+
+.clientes-header h2 {
+  color: #58a6ff;
+  margin: 0;
+}
+
+.clientes-header .header-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* === ÁREA DE BUSCA === */
+.clientes-search .form-control {
+  background-color: #161b22;
+  border-color: #30363d;
+  color: #e6edf3;
+}
+
+.clientes-search .form-control::placeholder {
+  color: #8b949e;
+}
+
+.clientes-search .form-control:focus {
+  background-color: #1c2128;
+  border-color: #58a6ff;
+  color: #e6edf3;
+  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+}
+
+/* === TABELA DARK === */
+.clientes-table {
+  background-color: #161b22;
+  color: #c9d1d9;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.clientes-table thead {
+  background-color: #21262d;
+}
+
+.clientes-table thead th {
+  color: #e6edf3;
+  border-bottom: 1px solid #30363d;
+  padding: 1rem;
+  font-weight: 600;
+}
+
+.clientes-table thead th a {
+  color: #e6edf3;
+}
+
+.clientes-table thead th a:hover {
+  color: #58a6ff;
+}
+
+.clientes-table tbody tr {
+  border-bottom: 1px solid #30363d;
+}
+
+.clientes-table tbody tr:hover {
+  background-color: #1f2937 !important;
+}
+
+.clientes-table tbody td {
+  padding: 1rem;
+  color: #c9d1d9;
+  border: none;
+}
+
+.clientes-table tbody td a {
+  color: #58a6ff;
+}
+
+.clientes-table tbody td a:hover {
+  color: #79c0ff;
+}
+
+/* Linha vazia */
+.clientes-table tbody tr td.text-center {
+  color: #8b949e;
+  font-style: italic;
+  padding: 2rem;
+}
+
+/* === BOTÕES CUSTOMIZADOS === */
+.clientes-header .btn-info {
+  background-color: #1f6feb;
+  border-color: #1f6feb;
+}
+
+.clientes-header .btn-success {
+  background-color: #238636;
+  border-color: #238636;
+}
+
+.clientes-header .btn-danger {
+  background-color: #da3633;
+  border-color: #da3633;
+}
+
+.clientes-header .btn-primary {
+  background-color: #238636;
+  border-color: #238636;
+}
+
+/* === PAGINAÇÃO DARK === */
+.clientes-pagination .page-item .page-link {
+  background-color: #21262d;
+  border-color: #30363d;
+  color: #c9d1d9;
+}
+
+.clientes-pagination .page-item .page-link:hover {
+  background-color: #30363d;
+  color: #e6edf3;
+}
+
+.clientes-pagination .page-item.active .page-link {
+  background-color: #1f6feb;
+  border-color: #1f6feb;
+  color: #ffffff;
+}
+
+/* === RESPONSIVIDADE === */
+@media (max-width: 768px) {
+  .clientes-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .clientes-header .header-buttons {
+    width: 100%;
+  }
+
+  .clientes-header .header-buttons .btn {
+    flex: 1;
+    text-align: center;
+  }
+}

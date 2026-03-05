@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Detalhe da Venda{% endblock %}
+{% block content %}
+  <h2>Venda #{{ venda.id }}</h2>
+  <dl class="row">
+    <dt class="col-sm-3">Cliente</dt><dd class="col-sm-9">{{ venda.cliente.nome if venda.cliente else '' }}</dd>
+    <dt class="col-sm-3">Plano</dt><dd class="col-sm-9">{{ venda.plano.nome_plano if venda.plano else '' }}</dd>
+    <dt class="col-sm-3">Valor final</dt><dd class="col-sm-9">{{ venda.valor_final }}</dd>
+    <dt class="col-sm-3">Status</dt><dd class="col-sm-9">{{ venda.status }}</dd>
+  </dl>
+  <a class="btn btn-secondary" href="{{ url_for('vendas.list_vendas') }}">Voltar</a>
+{% endblock %}

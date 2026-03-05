@@ -1,0 +1,226 @@
+/* ============================================
+   TELA DE RECUPERAÇÃO DE SENHA
+   Estilo alinhado ao sistema principal
+   ============================================ */
+
+* {
+  box-sizing: border-box;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: linear-gradient(
+    135deg,
+    #0f172a 0%,
+    #1e293b 45%,
+    #0f172a 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* === LOGO === */
+.logo {
+  position: absolute;
+  top: 40px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.logo img {
+  width: 90px;
+  height: auto;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4));
+}
+
+/* === CARD PRINCIPAL === */
+.recuperacao-container {
+  background: #ffffff;
+  width: 100%;
+  max-width: 420px;
+  padding: 2.5rem 2.2rem;
+  border-radius: 16px;
+  box-shadow:
+    0 25px 50px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.04);
+  text-align: center;
+  animation: fadeUp 0.6s ease;
+}
+
+/* === TÍTULO === */
+.recuperacao-container h1 {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* === TEXTO === */
+.recuperacao-container p {
+  margin: 0.6rem 0 1.8rem;
+  font-size: 0.95rem;
+  color: #64748b;
+}
+
+/* === FORMULÁRIO === */
+.recuperacao-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  text-align: left;
+}
+
+.recuperacao-container label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+/* === INPUT === */
+.recuperacao-container input {
+  padding: 0.75rem 0.85rem;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+.recuperacao-container input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* === BOTÃO === */
+.recuperacao-container button {
+  margin-top: 1.2rem;
+  padding: 0.85rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  cursor: pointer;
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  transition: all 0.25s ease;
+}
+
+.recuperacao-container button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(59, 130, 246, 0.45);
+}
+
+/* === LINKS === */
+.links {
+  margin-top: 1.2rem;
+  text-align: center;
+}
+
+.links a {
+  font-size: 0.9rem;
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.links a:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+/* === ANIMAÇÃO === */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === RESPONSIVO === */
+@media (max-width: 480px) {
+  .recuperacao-container {
+    margin: 0 1rem;
+    padding: 2rem 1.6rem;
+  }
+
+  .logo img {
+    width: 75px;
+  }
+}
+/* ===============================
+   RESET DE SENHA - EXTRAS
+   =============================== */
+
+.flash {
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.flash.success {
+  background: rgba(34,197,94,0.15);
+  color: #22c55e;
+}
+
+.flash.error {
+  background: rgba(239,68,68,0.15);
+  color: #ef4444;
+}
+
+/* === SENHA === */
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  padding-right: 2.5rem;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 1rem;
+  opacity: 0.6;
+}
+
+.toggle-password:hover {
+  opacity: 1;
+}
+
+/* === FORÇA DA SENHA === */
+.password-strength {
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 6px;
+  margin-top: 0.5rem;
+  overflow: hidden;
+}
+
+#strength-bar {
+  height: 100%;
+  width: 0%;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+}
+
+#strength-text {
+  font-size: 0.75rem;
+  display: block;
+  margin-top: 0.25rem;
+  color: #64748b;
+}
+

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+  <h2>{{ title }}</h2>
+  <form method="post">
+    {{ form.csrf_token }}
+    <div class="mb-3">
+      {{ form.nome_administradora.label(class="form-label") }}
+      {{ form.nome_administradora(class="form-control") }}
+      {% if form.nome_administradora.errors %}
+        <div class="invalid-feedback d-block">
+          {{ form.nome_administradora.errors[0] }}
+        </div>
+      {% endif %}
+    </div>
+    {{ form.submit(class="btn btn-primary") }}
+    <a class="btn btn-secondary" href="{{ url_for('administradoras.list_administradoras') }}">Cancelar</a>
+  </form>
+{% endblock %}

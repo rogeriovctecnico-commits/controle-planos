@@ -1,0 +1,271 @@
+/* Fundo geral da página */
+.dashboard-page {
+  background: linear-gradient(135deg, #0d1117, #1c1f26);
+  min-height: 100vh;
+  color: #e6e6e6;
+}
+
+/* Hover nos cards */
+.dashboard-page .card:hover {
+  transform: translateY(-5px);
+  transition: all 0.2s ease-in-out;
+}
+
+/* --- Animações --- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeInUp 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+/* Tema claro */
+[data-theme="light"] body {
+  background-color: #718394;
+}
+
+body {
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* Sidebar */
+:root {
+  --sidebar-width: 260px;
+}
+
+.mb-5.text-center {
+  width: 100% !important;
+  display: block !important;
+  text-align: center !important;
+  margin: 0 auto !important;
+}
+
+#sidebar {
+  width: var(--sidebar-width);
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  display: flex;
+  transition: margin-left 0.3s ease;
+}
+
+#sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#sidebar-resizer {
+  width: 8px;
+  cursor: col-resize;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background-color 0.2s;
+  flex-shrink: 0;
+}
+
+#sidebar-resizer:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+#sidebar.toggled {
+  margin-left: calc(var(--sidebar-width) * -1);
+}
+
+/* Conteúdo principal */
+main {
+  margin-left: var(--sidebar-width);
+  transition: margin-left 0.3s ease;
+  min-height: calc(100vh - 48px - 40px);
+  /* altura total menos navbar e footer */
+  padding: 20px;
+  overflow-y: auto;
+  /* rolagem só dentro do main se necessário */
+}
+
+#sidebar.toggled+main {
+  margin-left: 0;
+}
+
+/* Evita lag no resize */
+body.resizing #sidebar,
+body.resizing main {
+  transition: none !important;
+  user-select: none;
+}
+
+/* Impressão */
+@media print {
+
+  #sidebar,
+  #sidebarToggle,
+  #themeToggle,
+  footer,
+  .d-print-none {
+    display: none !important;
+  }
+
+  main {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body {
+    background-color: white !important;
+  }
+}
+
+/* Títulos */
+.dashboard-page h1,
+.dashboard-page h2,
+.dashboard-page h5 {
+  color: #ffffff;
+}
+
+/* Cards */
+.card {
+  background: linear-gradient(145deg, #1e1e2f, #2a2a3d);
+  border-radius: 12px;
+  border: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 300px;
+  color: #f7f5f5;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
+}
+
+.card-title {
+  color: #ffffff;
+}
+
+.card-text,
+.card-subtitle {
+  color: #f7f5f5;
+}
+
+.display-6 {
+  color: #00c2ff !important;
+}
+
+/* Botões */
+.btn-primary {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  border: none;
+  border-radius: 8px;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #0099ff, #0066cc);
+  transform: scale(1.05);
+}
+
+.btn-outline-info {
+  border: 1px solid #00c2ff;
+  color: #00c2ff;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-info:hover {
+  background: #00c2ff;
+  color: #0d1117;
+}
+
+/* Navbar compacta */
+.navbar {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  min-height: 48px;
+  margin-top: 0;
+  /* elimina espaço extra */
+}
+
+/* Container dos cards ajustado */
+.container-fluid {
+  max-height: calc(100vh - 100px);
+  /* altura menos navbar/footer */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Container dos cards ajustado */
+.container-fluid {
+  max-height: calc(100vh - 100px);
+  /* altura menos navbar/footer */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-left: 20px;
+  /* respeita espaço da sidebar */
+}
+
+/* Cards com largura proporcional ao espaço restante */
+.card {
+  flex: 1 1 calc((100% - var(--sidebar-width)) / 00.25rem - 1rem);
+  max-width: calc((100% - var(--sidebar-width)) / 00.25rem - 1rem);
+  /* max-width: 300px; */
+  color: white
+}
+
+h6.text-muted {
+  font-size: 0.75rem;
+  color: white
+}
+
+/* Cards */
+h6.card-subtitle.mb-3.text-muted {
+  font-size: 1.25rem;
+  /* aumenta o tamanho */
+  font-weight: bold;
+  /* dá destaque */
+  color: #ffffff !important;
+  /* branco puro */
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
+  /* brilho suave */
+  text-align: left;
+  /* centraliza */
+  margin-bottom: 1rem;
+}
+
+/* Título do card */
+.card-title {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Texto do card */
+.card-text,
+.card-subtitle {
+  color: #dcdcdc;
+}
+
+/* Letra do dia em destaque */
+.letra-dia {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffffff !important;
+  /* branco puro */
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+  /* brilho para destacar */
+  margin-bottom: 0.5rem;
+  text-align: center;
+}

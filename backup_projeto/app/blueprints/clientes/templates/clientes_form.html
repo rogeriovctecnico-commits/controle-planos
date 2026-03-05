@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<h2>{{ title }}</h2>
+
+<form id="formCliente" class="form-clientes-edit" method="post" novalidate>
+  {{ form.csrf_token }}
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      {{ form.nome.label(class="form-label") }}
+      {{ form.nome(class="form-control") }}
+      {% for error in form.nome.errors %}
+      <div class="text-danger">{{ error }}</div>
+      {% endfor %}
+    </div>
+    <div class="col-md-3 mb-3">
+      {{ form.cpf.label(class="form-label") }}
+      {{ form.cpf(class="form-control") }}
+      {% for error in form.cpf.errors %}
+      <div class="text-danger">{{ error }}</div>
+      {% endfor %}
+    </div>
+    <div class="col-md-3 mb-3">
+      {{ form.email.label(class="form-label") }}
+      {{ form.email(class="form-control") }}
+      {% for error in form.email.errors %}
+      <div class="text-danger">{{ error }}</div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="mb-3">
+    {{ form.telefone.label(class="form-label") }}
+    {{ form.telefone(class="form-control") }}
+    {% for error in form.telefone.errors %}<div class="text-danger">{{ error }}</div>{% endfor %}
+  </div>
+
+  <div class="mb-3">
+    {{ form.endereco.label(class="form-label") }}
+    {{ form.endereco(class="form-control", rows=3) }}
+    {% for error in form.endereco.errors %}<div class="text-danger">{{ error }}</div>{% endfor %}
+  </div>
+
+  <div class="mb-3">
+    {{ form.data_nascimento.label(class="form-label") }}
+    {{ form.data_nascimento(class="form-control") }}
+    {% for error in form.data_nascimento.errors %}<div class="text-danger">{{ error }}</div>{% endfor %}
+  </div>
+
+  {% if cliente %}
+  <div class="mb-3">
+    <label class="form-label">Data de Inclusão</label>
+    <input type="text" class="form-control"
+      value="{{ cliente.created_at.strftime('%d/%m/%Y %H:%M') if cliente.created_at else '' }}" readonly
+      title="Data de Inclusão">
+  </div>
+  {% endif %}
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      {{ form.cnpj.label(class="form-label") }}
+      {{ form.cnpj(class="form-control") }}
+      {% for error in form.cnpj.errors %}<div class="text-danger">{{ error }}</div>{% endfor %}
+    </div>
+    <div class="col-md-6 mb-3">
+      {{ form.responsavel.label(class="form-label") }}
+      {{ form.responsavel(class="form-control") }}
+      {% for error in form.responsavel.errors %}<div class="text-danger">{{ error }}</div>{% endfor %}
+    </div>
+    <div class="col-md-6 mb-3">
+      {{ form.status.label(class="form-label") }}
+      {{ form.status(class="form-select", id="statusCliente") }}
+      {% for error in form.status.errors %}
+      <div class="text-danger">{{ error }}</div>
+      {% endfor %}
+    </div>
+
+    <!-- Botão interno oculto (necessário para requestSubmit funcionar) -->
+    {{ form.submit(class="btn btn-primary", id="btnSubmit", hidden=True) }}
+
+</form>
+
+<!-- Botão externo visível -->
+<div class="d-grid gap-2 mt-3">
+  <button id="btnSalvar" class="btn btn-success">Salvar</button>
+  <a class="btn btn-secondary" href="{{ url_for('clientes.list_clientes') }}">Cancelar</a>
+</div>
+
+{% endblock %}

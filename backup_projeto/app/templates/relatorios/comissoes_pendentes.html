@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Comissões e Premiações Pendentes</h2>
+        <div class="d-print-none">
+            <button onclick="window.print()" class="btn btn-outline-dark btn-sm me-2"><i class="bi bi-printer"></i> Imprimir / PDF</button>
+            <a href="{{ url_for('relatorios.index') }}" class="btn btn-outline-secondary btn-sm">Voltar</a>
+        </div>
+    </div>
+    
+    <div class="alert alert-warning d-print-none" role="alert">
+        <i class="bi bi-info-circle"></i> Listando apenas vendas onde a <strong>Comissão</strong> ou a <strong>Premiação</strong> ainda não foram marcadas como pagas.
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead>
+                <tr>
+                    <th>Data Venda</th>
+                    <th>Cliente</th>
+                    <th>Plano</th>
+                    <th>Comissão</th>
+                    <th>Status</th>
+                    <th>Premiação</th>
+                    <th>Status</th>
+                    <th class="d-print-none">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for venda in pendentes %}
+                <tr>
+                    <td>{{ venda.data_venda | format_date }}</td>
+                    <td>{{ venda.cliente.nome }}</td>
+                    <td>{{ venda.plano.nome_plano }}</td>
+                    <td>R$ {{ venda.comissao or '0.00' }}</td>
+                    <td>
+                        {% if venda.comissao_paga %}
+                        <span class="badge bg-success">Paga</span>
+                        {% else %}
+                        <span class="badge bg-danger">Pendente</span>
+                        {% endif %}
+                    </td>
+                    <td>R$ {{ venda.premiacao or '0.00' }}</td>
+                    <td>
+                        {% if venda.premiacao_paga %}
+                        <span class="badge bg-success">Paga</span>
+                        {% else %}
+                        <span class="badge bg-danger">Pendente</span>
+                        {% endif %}
+                    </td>
+                    <td class="d-print-none">
+                        <a href="{{ url_for('vendas.edit_venda', id=venda.id) }}" class="btn btn-sm btn-outline-primary">Resolver</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="8" class="text-center py-3 text-success"><i class="bi bi-check-circle"></i> Nenhuma pendência encontrada! Tudo pago.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

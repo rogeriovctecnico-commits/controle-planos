@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Aniversariantes</h2>
+        <div class="d-print-none">
+            <button onclick="window.print()" class="btn btn-outline-dark btn-sm me-2"><i class="bi bi-printer"></i> Imprimir / PDF</button>
+            <a href="{{ url_for('relatorios.index') }}" class="btn btn-outline-secondary btn-sm">Voltar</a>
+        </div>
+    </div>
+    
+    <form method="get" class="row g-3 align-items-center mb-4 bg-light p-3 rounded border d-print-none">
+        <div class="col-auto">
+            <label for="mes" class="col-form-label fw-bold">Selecione o Mês:</label>
+        </div>
+        <div class="col-auto">
+            <select name="mes" id="mes" class="form-select">
+                {% set meses = [
+                    (1, 'Janeiro'), (2, 'Fevereiro'), (3, 'Março'), (4, 'Abril'),
+                    (5, 'Maio'), (6, 'Junho'), (7, 'Julho'), (8, 'Agosto'),
+                    (9, 'Setembro'), (10, 'Outubro'), (11, 'Novembro'), (12, 'Dezembro')
+                ] %}
+                {% for m_num, m_nome in meses %}
+                <option value="{{ m_num }}" {% if mes == m_num %}selected{% endif %}>{{ m_nome }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </div>
+    </form>
+
+    <div class="row">
+        {% for cliente in clientes %}
+        <div class="col-md-4 mb-3">
+            <div class="card h-100 border-info shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">{{ cliente.nome }}</h5>
+                    <h6 class="card-subtitle mb-3 text-muted">
+                        <i class="bi bi-calendar-event"></i> Dia {{ cliente.data_nascimento.day }}
+                    </h6>
+                    <p class="card-text mb-1"><small>Email: {{ cliente.email }}</small></p>
+                    <p class="card-text"><small>Tel: {{ cliente.telefone }}</small></p>
+                    
+                    {% if cliente.telefone %}
+                        {# Verifica se já enviou parabéns ESTE ANO #}
+                        {% set ja_enviou = cliente.ultimo_parabens_enviado and cliente.ultimo_parabens_enviado.year == now().year %}
+                        
+                        {% if ja_enviou %}
+                            <a href="https://wa.me/55{{ cliente.telefone | replace(' ', '') | replace('-', '') | replace('(', '') | replace(')', '') }}?text=Olá {{ cliente.nome }}, parabéns pelo seu aniversário!" target="_blank" rel="noopener" class="btn btn-sm btn-warning w-100">
+                                <i class="bi bi-check-all"></i> Enviado em {{ cliente.ultimo_parabens_enviado | format_date }}
+                            </a>
+                        {% else %}
+                            <a href="https://wa.me/55{{ cliente.telefone | replace(' ', '') | replace('-', '') | replace('(', '') | replace(')', '') }}?text=Olá {{ cliente.nome }}, parabéns pelo seu aniversário!" target="_blank" rel="noopener" class="btn btn-sm btn-success w-100" data-cliente-id="{{ cliente.id }}" onclick="marcarEnviado(this.dataset.clienteId, this);">
+                                <i class="bi bi-whatsapp"></i> Enviar Parabéns
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-12">
+            <div class="alert alert-secondary text-center">Nenhum aniversariante encontrado para este mês.</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+function marcarEnviado(clienteId, btn) {
+    // Chama a rota para salvar no banco que foi enviado
+    fetch(`/relatorios/marcar-parabens/${clienteId}`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'}
+    }).then(response => response.json())
+      .then(data => {
+          if (data.success) {
+              // Atualiza visualmente o botão para "Enviado"
+              setTimeout(() => {
+                  btn.classList.remove('btn-success');
+                  btn.classList.add('btn-warning');
+                  btn.innerHTML = '<i class="bi bi-check-all"></i> Enviado hoje';
+                  btn.removeAttribute('onclick');
+              }, 1000); // Espera 1s para dar tempo da aba do WhatsApp abrir
+          }
+      });
+}
+</script>
+{% endblock %}

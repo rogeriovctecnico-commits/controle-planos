@@ -1,0 +1,205 @@
+<!-- app/blueprints/clientes/templates/clientes_form.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-12">
+			<!-- Header -->
+			<div class="d-flex justify-content-between align-items-center mb-4">
+				<div>
+					<h1 class="h3 mb-0">{{ title }}</h1>
+					<p class="text-muted">{{ action }} informações do cliente</p>
+				</div>
+				<a href="{{ url_for('clientes.list_clientes') }}" class="btn btn-outline-secondary">
+					<i class="fas fa-arrow-left"></i> Voltar
+				</a>
+			</div>
+
+			<!-- Formulário -->
+			<div class="card">
+				<div class="card-body">
+					<form method="POST" novalidate>
+						{{ form.csrf_token }}
+
+						<div class="row">
+							<!-- Nome -->
+							<div class="col-md-6 mb-3">
+								{{ form.nome.label(class="form-label") }}
+								{{ form.nome(class="form-control" + (" is-invalid" if form.nome.errors else "")) }}
+								{% if form.nome.errors %}
+								<div class="invalid-feedback">
+									{% for error in form.nome.errors %}
+									{{ error }}
+									{% endfor %}
+								</div>
+								{% endif %}
+							</div>
+
+							<!-- Email -->
+							<div class="col-md-6 mb-3">
+								{{ form.email.label(class="form-label") }}
+								{{ form.email(class="form-control" + (" is-invalid" if form.email.errors else "")) }}
+								{% if form.email.errors %}
+								<div class="invalid-feedback">
+									{% for error in form.email.errors %}
+									{{ error }}
+									{% endfor %}
+								</div>
+								{% endif %}
+							</div>
+						</div>
+
+						<div class="row">
+							<!-- CPF -->
+							<div class="col-md-4 mb-3">
+								{{ form.cpf.label(class="form-label") }}
+								{{ form.cpf(class="form-control" + (" is-invalid" if form.cpf.errors else "")) }}
+								{% if form.cpf.errors %}
+								<div class="invalid-feedback">
+									{% for error in form.cpf.errors %}
+									{{ error }}
+									{% endfor %}
+								</div>
+								{% endif %}
+							</div>
+
+							<!-- CNPJ -->
+							<div class="col-md-4 mb-3">
+								{{ form.cnpj.label(class="form-label") }}
+								{{ form.cnpj(class="form-control" + (" is-invalid" if form.cnpj.errors else "")) }}
+								{% if form.cnpj.errors %}
+								<div class="invalid-feedback">
+									{% for error in form.cnpj.errors %}
+									{{ error }}
+									{% endfor %}
+								</div>
+								{% endif %}
+							</div>
+
+							<!-- Telefone -->
+							<div class="col-md-4 mb-3">
+								{{ form.telefone.label(class="form-label") }}
+								{{ form.telefone(class="form-control" + (" is-invalid" if form.telefone.errors else ""))
+								}}
+								{% if form.telefone.errors %}
+								<div class="invalid-feedback">
+									{% for error in form.telefone.errors %}
+									{{ error }}
+									{% endfor %}
+								</div>
+								{% endif %}
+							</div>
+						</div>
+
+						<div class="row">
+							<!-- Endereço -->
+							<div class="col-md-8 mb-3">
+								{{ form.endereco.label(class="form-label") }}
+								{{ form.endereco(class="form-control" + (" is-invalid" if form.endereco.errors else ""))
+								}}
+								{% if form.endereco.errors %}
+								<div class="invalid-feedback">
+									{% for error in form.endereco.errors %}
+									{{ error }}
+									{% endfor %}
+								</div>
+								{% endif %}
+							</div>
+
+							<!-- Data de Nascimento -->
+							<div class="col-md-4 mb-3">
+								{{ form.data_nascimento.label(class="form-label") }}
+								{{ form.data_nascimento(class="form-control" + (" is-invalid" if
+								form.data_nascimento.errors else "")) }}
+								{% if form.data_nascimento.errors %}
+								<div class="invalid-feedback">
+									{% for error in form.data_nascimento.errors %}
+									{{ error }}
+									{% endfor %}
+								</div>
+								{% endif %}
+							</div>
+						</div>
+
+						<div class="row">
+							<!-- Responsável -->
+							<div class="col-md-6 mb-3">
+								{{ form.responsavel.label(class="form-label") }}
+								{{ form.responsavel(class="form-control" + (" is-invalid" if form.responsavel.errors
+								else "")) }}
+								{% if form.responsavel.errors %}
+								<div class="invalid-feedback">
+									{% for error in form.responsavel.errors %}
+									{{ error }}
+									{% endfor %}
+								</div>
+								{% endif %}
+							</div>
+
+							<!-- Status -->
+							<div class="col-md-6 mb-3">
+								{{ form.status.label(class="form-label") }}
+								{{ form.status(class="form-select" + (" is-invalid" if form.status.errors else "")) }}
+								{% if form.status.errors %}
+								<div class="invalid-feedback">
+									{% for error in form.status.errors %}
+									{{ error }}
+									{% endfor %}
+								</div>
+								{% endif %}
+							</div>
+						</div>
+
+						<!-- Botões -->
+						<div class="d-flex gap-2 mt-4">
+							{{ form.submit(class="btn btn-primary") }}
+							<a href="{{ url_for('clientes.list_clientes') }}" class="btn btn-secondary">Cancelar</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	// Máscaras para os campos
+	document.addEventListener('DOMContentLoaded', function () {
+		// Máscara para telefone
+		const telefoneInput = document.getElementById('telefone');
+		if (telefoneInput) {
+			telefoneInput.addEventListener('input', function (e) {
+				let value = e.target.value.replace(/\D/g, '');
+				if (value.length <= 11) {
+					value = value.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+					if (value.length < 14) {
+						value = value.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+					}
+				}
+				e.target.value = value;
+			});
+		}
+
+		// Máscara para CPF
+		const cpfInput = document.getElementById('cpf');
+		if (cpfInput) {
+			cpfInput.addEventListener('input', function (e) {
+				let value = e.target.value.replace(/\D/g, '');
+				value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+				e.target.value = value;
+			});
+		}
+
+		// Máscara para CNPJ
+		const cnpjInput = document.getElementById('cnpj');
+		if (cnpjInput) {
+			cnpjInput.addEventListener('input', function (e) {
+				let value = e.target.value.replace(/\D/g, '');
+				value = value.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+				e.target.value = value;
+			});
+		}
+	});
+</script>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Detalhe do Plano{% endblock %}
+{% block content %}
+  <h2>{{ plano.nome_plano }}</h2>
+  <dl class="row">
+    <dt class="col-sm-3">Valor base</dt><dd class="col-sm-9">{{ plano.valor_base }}</dd>
+    <dt class="col-sm-3">Operadora</dt><dd class="col-sm-9">{{ plano.operadora.nome_operadora if plano.operadora else '' }}</dd>
+    <dt class="col-sm-3">Descrição</dt><dd class="col-sm-9">{{ plano.descricao }}</dd>
+  </dl>
+  <a class="btn btn-secondary" href="{{ url_for('planos.list_planos') }}">Voltar</a>
+{% endblock %}

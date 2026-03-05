@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="{{ (request.cookies.get('theme_pref') or 'dark') }}">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>{% block title %}RVC.planosdesaúde{% endblock %}</title>
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+	<!-- Fonts -->
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+	<!-- Bootstrap -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+
+	<!-- Tema customizado base e clientes -->
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/clientes.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+	<!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> -->
+
+	{% block head_extra %}{% endblock %}
+	<!-- <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a></li> -->
+</head>
+
+<body {% block body_attributes %}{% endblock %} class=" dashboard-page" padding-top: 40px>
+
+	{% block body %}{% endblock %}
+
+	<!-- Barra superior -->
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm fixed-top">
+		<div class="container-fluid">
+			<!-- Logo / título -->
+			<a class="navbar-brand fw-bold" href="{{ url_for('index') }}">
+				RVC.planosdesaúde
+			</a>
+
+			<!-- Botão hamburguer para telas pequenas -->
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topNavbar"
+				aria-controls="topNavbar" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<!-- Links da sidebar migrados para a barra superior -->
+			<div class="collapse navbar-collapse" id="topNavbar">
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item"><a class="nav-link {% if request.endpoint == 'index' %}active{% endif %}"
+							href="{{ url_for('index') }}">🏠 Início</a></li>
+					<li class="nav-item"><a
+							class="nav-link {% if request.endpoint.startswith('clientes.') %}active{% endif %}"
+							class="nav-item"></li><a href="#" onclick="alert('Funcionalidade em desenvolvimento')">👥
+						Clientes</a></li>
+					<li class="nav-item"><a
+							class="nav-link {% if request.endpoint.startswith('planos.') %}active{% endif %}"
+							href="{{ url_for('planos.list_planos') }}">📑 Planos</a></li>
+					<li class="nav-item"><a
+							class="nav-link {% if request.endpoint.startswith('vendas.') %}active{% endif %}"
+							href="{{ url_for('vendas.list_vendas') }}">🛒 Vendas</a></li>
+					<li class="nav-item"><a
+							class="nav-link {% if request.endpoint.startswith('precos.') %}active{% endif %}"
+							href="{{ url_for('precos.list_precos') }}">💲 Preços</a></li>
+					<li class="nav-item"><a
+							class="nav-link {% if request.endpoint.startswith('operadoras.') %}active{% endif %}"
+							href="{{ url_for('operadoras.list_operadoras') }}">📡 Operadoras</a></li>
+					<li class="nav-item"><a
+							class="nav-link {% if request.endpoint.startswith('administradoras.') %}active{% endif %}"
+							href="{{ url_for('administradoras.list_administradoras') }}">🏢 Administradoras</a></li>
+					<li class="nav-item"><a
+							class="nav-link {% if request.endpoint.startswith('relatorios') %}active{% endif %}"
+							href="{{ url_for('relatorios.index') }}">📊 Relatórios</a></li>
+					<li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">🚪 Logout</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div>
+		<!-- barra lateral -->
+		<nav id="sidebar" class="bg-dark text-white">
+			<div id="sidebar-content" class="p-4">
+				<h5 class="text-white mb-4">Menu</h5>
+				<ul class="nav flex-column">
+					<li class="nav-item"><a class="nav-link {% if request.endpoint == 'index' %}active{% endif %}"
+							href="{{ url_for('index') }}">🏠 Início <span class="text-muted small">(F2)</span></a></li>
+					<li class="nav-item"><a
+							class="nav-link {% if request.endpoint.startswith('clientes.') %}active{% endif %}"
+							class="text-muted small">(F3)</span></a>
+					</li>
+					<li class="nav-item"><a
+							class="nav-link {% if request.endpoint.startswith('planos.') %}active{% endif %} text-success"
+							href="{{ url_for('planos.list_planos') }}">📑 Planos <span
+								class="text-muted small">(F4)</span></a></li>
+					<li class="nav-item"><a
+							class="nav-link {% if request.endpoint.startswith('vendas.') %}active{% endif %} vendas-link"
+							href="{{ url_for('vendas.list_vendas') }}">🛒 Vendas <span
+								class="text-muted small">(F6)</span></a></li>
+					<li class="nav-item"><a
+							class="nav-link {% if request.endpoint.startswith('precos.') %}active{% endif %} text-info"
+							href="{{ url_for('precos.list_precos') }}">💲 Preços <span
+								class="text-muted small">(F7)</span></a></li>
+					<li class="nav-item"><a
+							class="nav-link {% if request.endpoint.startswith('operadoras.') %}active{% endif %} text-primary"
+							href="{{ url_for('operadoras.list_operadoras') }}">📡 Operadoras <span
+								class="text-muted small">(F8)</span></a></li>
+					<li class="nav-item"><a
+							class="nav-link {% if request.endpoint.startswith('administradoras.') %}active{% endif %} admin-link"
+							href="{{ url_for('administradoras.list_administradoras') }}">🏢 Administradoras <span
+								class="text-muted small">(F9)</span></a></li>
+					<li class="nav-item"><a
+							class="nav-link {% if request.endpoint.startswith('relatorios') %}active{% endif %} text-secondary"
+							href="{{ url_for('relatorios.index') }}">📊 Relatórios <span
+								class="text-muted small">(F12)</span></a>
+					</li>
+
+				</ul>
+
+				<!-- botão de alternância de tema -->
+				<div class="mt-4">
+					<button id="themeToggle" class="theme-toggle-btn w-100" aria-label="Alternar tema"
+						aria-pressed="false" type="button">
+						<span id="themeIcon" class="theme-toggle-icon" aria-hidden="true"></span>
+						<span class="ms-2">Tema</span>
+					</button>
+				</div>
+
+				<!-- Logo na parte inferior -->
+				<div class="text-center mt-5 mb-4">
+					<img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logo" class="img-fluid"
+						style="max-height: 200px;">
+				</div>
+			</div>
+			<!-- Elemento para redimensionar -->
+			<div id="sidebar-resizer"></div>
+		</nav>
+
+		<!-- conteúdo principal -->
+		<main class="flex-grow-1 position-relative text-start" style="padding: 20px;">
+
+			<div class="w-100">
+				{% with messages = get_flashed_messages(with_categories=true) %}
+				{% if messages %}
+				<div class="mb-3">
+					{% for category, msg in messages %}
+					<div class="alert alert-{{ category }} py-2 flash-message">{{ msg }}</div>
+					{% endfor %}
+				</div>
+				{% endif %}
+				{% endwith %}
+
+				{% block content %}{% endblock %}
+			</div>
+		</main>
+	</div>
+
+	<!-- FOOTER -->
+	<footer class="text-center text-muted py-4">
+		<small>&copy; {{ current_year or (now().year if now is defined else '') }} RVC.planosdesaude</small>
+	</footer>
+
+	<!-- SCRIPTS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="{{ url_for('static', filename='js/theme-toggle.js') }}"></script>
+
+
+	<!-- Script de Atalhos de Teclado -->
+	<script>
+		document.addEventListener('keydown', function (event) {
+			// Mapeamento de teclas de função para rotas (endpoints)
+			const shortcuts = {
+				"F2": "{{ url_for('index') }}",
+				"F3": "{{ url_for('clientes.list_clientes') }}",
+				"F4": "{{ url_for('planos.list_planos') }}",
+				// F5 é mantido para "Atualizar Página"
+				"F6": "{{ url_for('vendas.list_vendas') }}",
+				"F7": "{{ url_for('precos.list_precos') }}",
+				"F8": "{{ url_for('operadoras.list_operadoras') }}",
+				"F9": "{{ url_for('administradoras.list_administradoras') }}",
+
+				// F12 é mantido para "Ferramentas do Desenvolvedor"
+			};
+
+			if (shortcuts[event.key]) {
+				event.preventDefault(); // Impede a ação padrão do navegador (ex: F3 abrir busca)
+				window.location.href = shortcuts[event.key];
+			}
+		});
+	</script>
+
+	<!-- Script alternância de tema -->
+	<script>
+		(function () {
+			const btn = document.getElementById('themeToggle');
+			const iconWrap = document.getElementById('themeIcon');
+			const root = document.documentElement;
+			const cookieName = 'theme_pref';
+
+			function setCookie(name, value, days = 365) {
+				const d = new Date();
+				d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+				document.cookie = name + "=" + encodeURIComponent(value) + ";path=/;expires=" + d.toUTCString();
+			}
+
+			function getCookie(name) {
+				const v = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+				return v ? decodeURIComponent(v.pop()) : null;
+			}
+
+			function renderIcon(theme) {
+				if (theme === 'light') {
+					iconWrap.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" 
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                 stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2"></path>
+              <path d="M12 20v2"></path>
+              <path d="M4.93 4.93l1.41 1.41"></path>
+              <path d="M17.66 17.66l1.41 1.41"></path>
+              <path d="M2 12h2"></path>
+              <path d="M20 12h2"></path>
+              <path d="M4.93 19.07l1.41-1.41"></path>
+              <path d="M17.66 6.34l1.41-1.41"></path>
+            </svg>`;
+				} else {
+					iconWrap.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" 
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                 stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+            </svg>`;
+				}
+			}
+
+			const savedCookie = getCookie(cookieName);
+			const savedLocal = localStorage.getItem('theme_pref');
+			const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+			const initial = savedCookie || savedLocal || (prefersLight ? 'light' : 'dark');
+
+			root.setAttribute('data-theme', initial);
+			renderIcon(initial);
+			btn.setAttribute('aria-pressed', initial === 'light');
+
+			btn.addEventListener('click', function () {
+				const current = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+				root.setAttribute('data-theme', current);
+				renderIcon(current);
+				btn.setAttribute('aria-pressed', current === 'light');
+				localStorage.setItem('theme_pref', current);
+				setCookie(cookieName, current, 365);
+			});
+
+			// Lógica da Barra Lateral (Sidebar)
+			const sidebar = document.getElementById('sidebar');
+			const sbToggle = document.getElementById('sidebarToggle');
+
+			if (localStorage.getItem('sidebar_closed') === 'true') {
+				sidebar.classList.add('toggled');
+			}
+
+			sbToggle.addEventListener('click', function () {
+				sidebar.classList.toggle('toggled');
+				localStorage.setItem('sidebar_closed', sidebar.classList.contains('toggled'));
+			});
+
+			// Lógica de Redimensionamento da Barra Lateral
+			const resizer = document.getElementById('sidebar-resizer');
+			const rootEl = document.documentElement;
+			let isResizing = false;
+
+			// Carregar largura salva
+			const savedWidth = localStorage.getItem('sidebar_width');
+			if (savedWidth) {
+				rootEl.style.setProperty('--sidebar-width', savedWidth);
+			}
+
+			resizer.addEventListener('mousedown', (e) => {
+				isResizing = true;
+				document.body.classList.add('resizing');
+				e.preventDefault();
+			});
+
+			document.addEventListener('mousemove', (e) => {
+				if (!isResizing) return;
+				// Limites mínimo e máximo
+				let newWidth = e.clientX;
+				if (newWidth < 150) newWidth = 150;
+				if (newWidth > 600) newWidth = 600;
+				rootEl.style.setProperty('--sidebar-width', newWidth + 'px');
+			});
+
+			document.addEventListener('mouseup', () => {
+				if (isResizing) {
+					isResizing = false;
+					document.body.classList.remove('resizing');
+					const currentWidth = getComputedStyle(rootEl).getPropertyValue('--sidebar-width');
+					localStorage.setItem('sidebar_width', currentWidth);
+				}
+			});
+
+			// Auto-hide flash messages after 5 seconds
+			setTimeout(function () {
+				const flashMessages = document.querySelectorAll('.flash-message');
+				flashMessages.forEach(function (message) {
+					message.style.transition = 'opacity 0.5s ease-out';
+					message.style.opacity = '0';
+					setTimeout(function () {
+						message.style.display = 'none';
+					}, 500);
+				});
+			}, 5000);
+		})();
+	</script>
+
+	{% block scripts %}{% endblock %}
+</body>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</html>
